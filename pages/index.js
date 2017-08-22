@@ -1,23 +1,21 @@
 import '../components/tap_events'
 import React from 'react'
-import ReactDOM from 'react-dom'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import FlatButton from 'material-ui/FlatButton'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import Page from '../components/page'
+import Layout from '../components/layout'
+import CardHome from '../components/cardhome'
 
-export default class extends React.Component {
-  static async getInitialProps({req}) {
-    return {
-      userAgent: req ? req.headers['user-agent'] : navigator.userAgent,
-    }
-  }
+export default class extends Page {
   render() {
     const muiTheme = getMuiTheme({
       userAgent: this.props.userAgent,
-    });
+      });
     return (
       <MuiThemeProvider muiTheme={muiTheme}>
-        <FlatButton label="Iniciando vinci!" />
+        <Layout>
+          <CardHome />
+        </Layout>
       </MuiThemeProvider>
     )
   }
