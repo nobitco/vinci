@@ -57,3 +57,22 @@ typings/
 # dotenv environment variables file
 .env
 
+# Workspace files are user-specified
+*.sublime-workspace
+
+# Project files
+*.sublime-project
+
+# build output
+dist
+.next/
+
+#dependencies
+package-lock.json
+
+#coverage
+.nyc_output
+
+# test output
+test/**/out
+.DS_Store

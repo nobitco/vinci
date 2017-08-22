@@ -1,0 +1,31 @@
+{
+  "name": "vinci",
+  "version": "0.1.0",
+  "description": "Vinci",
+  "main": "index.js",
+  "dependencies": {
+    "next": "^3.0.6",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nobitco/vinci.git"
+  },
+  "keywords": [
+    "node",
+    "javascript"
+  ],
+  "author": "Jesus Marquez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nobitco/vinci/issues"
+  },
+  "homepage": "https://github.com/nobitco/vinci#readme"
+}
