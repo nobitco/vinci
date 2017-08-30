@@ -1,14 +1,16 @@
 import '../components/tap_events'
 import React from 'react'
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Page from '../components/page'
 import Layout from '../components/layout'
 import Router from 'next/router'
-import {Card, CardHeader} from 'material-ui/Card'
-import Link from 'next/link'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+import vinciTheme from '../theme/vinci-theme'
+import UserIcon from 'material-ui/svg-icons/action/account-circle'
+import PasswordIcon from 'material-ui/svg-icons/communication/vpn-key'
+import HelpIcon from 'material-ui/svg-icons/action/help'
+import Link from 'next/link'
 
 export default class extends Page {
 
@@ -25,6 +27,8 @@ export default class extends Page {
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleEmailChange = this.handleEmailChange.bind(this)
+
+
   }
 
   handleEmailChange(event) {
@@ -32,7 +36,7 @@ export default class extends Page {
       email: event.target.value.trim(),
     })
   }
-
+    
   async handleSubmit(event) {
     event.preventDefault()
 
@@ -46,51 +50,62 @@ export default class extends Page {
       console.log(err)
     })
   }
+    
 
   render() {
-    const muiTheme = getMuiTheme({
-      userAgent: this.props.userAgent,
-    });
+    
+    const inputMargin = {
+        marginLeft: 10
+    };
+    
     return (
-      <MuiThemeProvider muiTheme={muiTheme}>
-        <Layout>
-          <Card>
-            <div className="container">
-              <CardHeader
-                title="Autenticar"
-                actAsExpander={false}
-                showExpandableButton={false}
-              />
-              <form method="post" action="/auth/email/signin" onSubmit={this.handleSubmit}>
-                <div className="field-line">
-                  <TextField 
-                    floatingLabelText="email"
-                    name="email"
-                    type="email"
-                    value={this.state.email}
-                    onChange={this.handleEmailChange} 
-                  />
-                </div>
-                <br />
-                <div className="field-line">
-                  <TextField 
-                    floatingLabelText="password"
-                    name="password"
-                    type="password"
-                  />
-                </div>
-                <br />
+      <MuiThemeProvider muiTheme={vinciTheme(this.props.userAgent)}>
+        <Layout title='Login :: Bienvenido a Vinci'>
+            <div className='row'>
+                <div className="loginbox col push-s1 s10 push-m2 m8" >
+                  <h1 className='left'>Vinci</h1>
+                  <form method="post" action="/auth/email/signin" onSubmit={this.handleSubmit}>
+                  <div className='row-fields'>
+                          <UserIcon className="grey-text"/>
+                          <TextField 
+                            floatingLabelText="email"
+                            name="email"
+                            type="email"
+                            value={this.state.email}
+                            onChange={this.handleEmailChange} 
+                            fullWidth={true}
+                            style={inputMargin}
+                          />
+                    </div>
+                    <div className='row-fields'>   
+                      <PasswordIcon className="grey-text"/>
+                      <TextField 
+                        floatingLabelText="password"
+                        name="password"
+                        type="password"
+                        fullWidth={true}
+                        style={inputMargin}
+                      />
+                    </div>
+                      <RaisedButton
+                        fullWidth={true}
+                        type="submit"
+                        label="Entrar"
+                        primary
+                        id="submit-btn"
+                        style={{marginTop:50}}
+                      />
 
-                <div className="field-line">
-                  <RaisedButton
-                    type="submit"
-                    label="Entrar"
-                    primary
-                  />
+                  </form>
+                    <Link href="/index"><a>
+                     <small style={{marginTop:25}} className="right grey-text text-darken-1">
+                         <HelpIcon className="grey-text"
+                                    style={{position:'relative' , top: 7}}/>
+                         Recuperar contraseña
+                    </small></a>
+                    </Link>
                 </div>
-              </form>
             </div>
-          </Card>
         </Layout>
       </MuiThemeProvider>
     )

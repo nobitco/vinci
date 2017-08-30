@@ -1,7 +1,4 @@
-/* eslint-disable react/no-danger */
-
 import Head from 'next/head'
-import Link from 'next/link'
 import React from 'react'
 import Package from '../package'
 import inlineCSS from '../css/main.scss'
@@ -30,7 +27,7 @@ export default class extends React.Component {
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1"/>
           <script src="https://cdn.polyfill.io/v2/polyfill.min.js"/>
-          <title>Vinci</title>
+          <title>{this.props.title}</title>
           {stylesheet}
         </Head>
     )

@@ -1,7 +1,27 @@
+@import 'grid';
+@import 'mixins';
+@import 'login';
+
 .container {
-  margin: 100px auto;
-  text-align: center;
-  width: 700px;
+  margin: o auto;
+  max-width: 100%; 
+  width: 100%;    
+}
+.flex{
+    display: flex;
+    &.column{
+        flex-direction: column;
+    }
+    &.wrap{
+        flex-wrap: wrap;
+    }
+    &.row{
+        flex-direction: row;
+    }
+    &.toCenter{
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 .field-line {

@@ -1,0 +1,14 @@
+
+
+@mixin me($color){
+    border: 1px solid $color;
+}
+
+@mixin flex($direction, $alignmentX, $alignmentY, $wrap ){
+    display: flex;
+    flex-direction: $direction;
+    flex-wrap: $wrap;
+    justify-content: $alignmentX;
+    align-items: $alignmentY;
+    
+}

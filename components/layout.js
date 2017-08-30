@@ -1,6 +1,6 @@
 import React from 'react'
-import AppBarMain from './appbarmain'
-import Header from './header'
+//import AppBarMain from './appbarmain'
+import Head from './head'
 
 export default class extends React.Component {
 
@@ -14,8 +14,7 @@ export default class extends React.Component {
   render() {
     return (
       <div>
-        <Header />
-        <AppBarMain />
+        <Head title={this.props.title}/>
         <div className="container">
           {this.props.children}
         </div>
