@@ -1,12 +1,17 @@
 @import 'grid';
 @import 'mixins';
 @import 'login';
+@import 'appBar';
 
 .container {
   margin: o auto;
   max-width: 100%; 
   width: 100%;    
 }
+.capitalize{
+    text-transform: uppercase;
+}
+
 .flex{
     display: flex;
     &.column{
@@ -32,4 +37,15 @@
   margin: 50px auto;
 
   text-align: center;
+}
+
+.border {
+    border: 1px solid green;
+}
+#main-searchbar{
+    width: 70%;
+}
+
+.light{
+    background-color: lightgoldenrodyellow;
 }

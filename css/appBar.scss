@@ -1,0 +1,23 @@
+.appBar{
+    img#userPic{
+        max-width: 40px;
+        width: 40px;
+        margin-right: 20px;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+    
+    
+}
+
+.userResume{
+    display: inline-block;
+    width: 100%;
+    padding: 18px 12px;
+    color: inherit;
+        img{
+            width:50px;
+            height: 50px;
+        }
+}
