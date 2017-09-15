@@ -7,7 +7,7 @@ import Divider from 'material-ui/Divider'
 export default class FilterMenu extends React.Component {
     constructor(props){
         super(props);
-        this.state = { value : 'Todos' };
+        this.state = { value : this.props.default };
     }
     
     handleChange = (event , index, value) => { this.setState({ value }) }

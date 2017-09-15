@@ -15,7 +15,7 @@ export default class extends React.Component {
     return (
       <div>
         <Head title={this.props.title}/>
-        <div className="container">
+        <div>
           {this.props.children}
         </div>
       </div>  
