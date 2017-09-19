@@ -49,7 +49,7 @@ export default class extends React.Component{
                         
                     </a>
         )};
-        
+      
         return(
             <div>
                 <Avatar src='http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg' id="userPic" onClick={this.handleTouchTap}/>

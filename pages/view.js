@@ -9,6 +9,7 @@ import Link from 'next/link'
 import AppBar from 'material-ui/AppBar'
 import Header from '../components/Header/Header'
 import Panel from '../components/Panel'
+import Filters from '../components/Filters/Filters'
 
 export default class extends Page {
 
@@ -108,6 +109,7 @@ export default class extends Page {
       <MuiThemeProvider muiTheme={vinciTheme(this.props.userAgent)}>
         <Layout title='Usuarios'>
             <Header />
+            <Filters />
             <Panel content={users}/>
         </Layout>
       </MuiThemeProvider>

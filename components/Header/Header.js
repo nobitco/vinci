@@ -1,10 +1,10 @@
-
 import Link from 'next/link'
 import React from 'react'
 import AppBar from 'material-ui/AppBar'
 import UserMenu from './userMenu'
 import Filters from  '../Filters/Filters'
 import {grey100, grey900} from 'material-ui/styles/colors'
+import SearchBar from  '../Filters/SearchBar'
 
 export default class extends React.Component {
 
@@ -15,16 +15,24 @@ export default class extends React.Component {
   }
 
   render() {
+    
     return (
       <div>
-          <AppBar className='appBar ' 
+          <AppBar className='appBar' 
               showMenuIconButton={true} 
               title='Vinci' 
               iconElementRight={<UserMenu />} 
-              iconElementLeft={<Filters />}
-              style={{ backgroundColor:  grey100}}
-              titleStyle={{color: grey900}}
+              iconElementLeft={<SearchBar />} 
+              iconStyleLeft={{order:2}}
+              iconStyleRight={{order:3}}
+              style={{  backgroundColor:grey100, 
+                        display:'flex', 
+                        flexDirection:'row' }}
+              titleStyle={{ color: grey900, 
+                            flex:'initial', 
+                            order:1}}
             />
+         
         </div>
     )}
 }
