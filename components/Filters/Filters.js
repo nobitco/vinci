@@ -1,8 +1,10 @@
 import React from 'react'
 import FilterMenu from './FilterMenu'
 import FilterRange from './FilterRange'
-import {red500} from 'material-ui/styles/colors'
-
+import {grey600} from 'material-ui/styles/colors'
+import FunctionIcon  from 'material-ui/svg-icons/action/stars'
+import ZoneIcon from 'material-ui/svg-icons/communication/location-on'
+import ScheduleIcon from 'material-ui/svg-icons/image/timelapse'
 
 export default class  extends React.Component {
     
@@ -11,27 +13,49 @@ export default class  extends React.Component {
         this.state = { funcion:'Supervisor', zona: '1' };
     }
 
-    
+
+  
     render(){
         
-         const funciones = [ 'Todos','Coordinador' , 'Supervisor' , 'Circuitos', 'Alcoholimetros' , 'Casos Especiales', 'Suplentes'];
-         const zonas = [ 'Todas','1' , '2', '3' ,'4', '5', '6'];
+         const funciones = [ 'Cualquier funcion','Coordinador' , 'Supervisor' , 'Circuitos', 'Alcoholimetros' , 'Casos Especiales', 'Suplentes'];
+         const zonas = [ 'Cualquier zona','Zona 1' , 'Zona 2', 'Zona 3' ,'Zona 4', 'Zona 5', 'Zona 6'];
          const jornadas = [ 'Todos','Diurno','Nocturno'] ;
-      
+         const labelIconStyle = {
+                  marginRight:-13,
+                  marginTop:6,
+                  color: grey600
+         }
         
         return (
-            <div>
-                <div className='row border' id='filter-set'>
-                    <div className='col s12 m4 border'>
-                        <FilterMenu items={funciones} label='Función' default={funciones[0]} />
+           
+                <div className='row ' id='filters-set'>
+                    <div className='col s5 m3 l3 push-s1 push-l1  push-m1 filter limit'>
+                        <FilterMenu items={funciones}  default={funciones[0]} labelIcon={<FunctionIcon style={labelIconStyle}/>}/>
                     </div>
-                    <div className='col s12 m4 border'>
-                        <FilterMenu items={zonas} label='Zonas' default={zonas[0]} />
+                    <div className='col s5 m2 l2 push-s1 push-m1 push-l1  filter limit'>
+                        <FilterMenu items={zonas}  default={zonas[0]}  labelIcon={<ZoneIcon style={labelIconStyle}/>}/>
                     </div>
-                    <div className='col s12 m4 border'>
-                       <FilterRange label='Horario' />
+                    <div className='col s10 m5 l7 push-s1 push-m1 push-l1  filter limit2'>
+                       <FilterRange labelIcon={<ScheduleIcon style={labelIconStyle}/>}
+                       style={{marginLeft:28}} />
                     </div>
-                </div>
+               
+            
+<style jsx>{`
+#filters-set{
+background-color:#f5f5f5;
+}
+.filter{
+margin:15px 0;
+}
+.limit {
+max-width:250px !important;
+}
+.limit2{
+max-width:420px !important;
+}
+`}</style>
+           
             </div>
     )}
 }

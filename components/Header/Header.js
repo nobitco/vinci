@@ -7,28 +7,46 @@ import {grey100, grey900} from 'material-ui/styles/colors'
 import SearchBar from  '../Filters/SearchBar'
 
 export default class extends React.Component {
+  
+  constructor(props){
+    super(props)
+    this.state={
+      showFiltersMenu : false,
+      searchText: ''
+    }
+    this.handleFilterBtnChange = this.handleFilterBtnChange.bind(this);
+    this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
+  }
 
   static propTypes() {
     return {
       session: React.propTypes.object.isRequired
     }
   }
+  handleSearchBarChange(textValue){
+    this.setState({searchText : textValue });
+  }
+  handleFilterBtnChange(booleanValue){
+    this.setState({showFiltersMenu : booleanValue });
+  }
 
   render() {
     
     return (
       <div>
-          <AppBar className='appBar' 
+          <AppBar className='appBar row' 
               showMenuIconButton={true} 
               title='Vinci' 
               iconElementRight={<UserMenu />} 
-              iconElementLeft={<SearchBar />} 
-              iconStyleLeft={{order:2}}
-              iconStyleRight={{order:3}}
-              style={{  backgroundColor:grey100, 
-                        display:'flex', 
-                        flexDirection:'row' }}
-              titleStyle={{ color: grey900, 
+              iconElementLeft={<SearchBar className='col s12 push-s1 push-m1 m11' 
+                                          onFilterBtnChange={this.handleFilterBtnChange}
+                                          onSearchBarValueChange={this.handleSearchBarChange}
+                                 />} 
+              iconStyleLeft={{order:2, marginLeft: 'auto'}}
+              iconStyleRight={{order:3, marginTop:12}}
+              style={{ marginBottom:0,
+                       marginTop:0 }}
+              titleStyle={{ color: '#FFF', 
                             flex:'initial', 
                             order:1}}
             />
