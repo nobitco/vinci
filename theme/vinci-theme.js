@@ -8,6 +8,7 @@ export default  (userAgent) => {
         primary3Color: '#FF0324',
         accent1Color: yellow900,
         accent2Color: '#FFF',
+        pickerHeaderColor: yellow900
 
         }
     })

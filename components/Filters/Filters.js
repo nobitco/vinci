@@ -29,13 +29,13 @@ export default class  extends React.Component {
         return (
            
                 <div className='row ' id='filters-set'>
-                    <div className='col s5 m3 l3 push-s1 push-l1  push-m1 filter limit'>
+                    <div className='col s5 m4 l3 push-s1 push-l2  filter limit'>
                         <FilterMenu items={funciones}  default={funciones[0]} labelIcon={<FunctionIcon style={labelIconStyle}/>}/>
                     </div>
-                    <div className='col s5 m2 l2 push-s1 push-m1 push-l1  filter limit'>
+                    <div className='col s5 m3 l2 push-s1  push-l2  filter limit'>
                         <FilterMenu items={zonas}  default={zonas[0]}  labelIcon={<ZoneIcon style={labelIconStyle}/>}/>
                     </div>
-                    <div className='col s10 m5 l7 push-s1 push-m1 push-l1  filter limit2'>
+                    <div className='col s11 m5 l7 push-s1  push-l2  filter limit2'>
                        <FilterRange labelIcon={<ScheduleIcon style={labelIconStyle}/>}
                        style={{marginLeft:28}} />
                     </div>

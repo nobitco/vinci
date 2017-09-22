@@ -7,9 +7,10 @@ export default class extends React.Component{
     }
     
     render(){
+      var searchText = this.props.searchText;
         return(
             <div>
-                <List items={this.props.content} /> 
+                <List items={this.props.content} searchText={searchText}/> 
             </div>
         )}
 }

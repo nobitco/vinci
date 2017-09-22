@@ -42,7 +42,7 @@ export default class SearchBar extends React.Component {
                       <FlatButton 
                             className= "left hide-on-small-only"
                             id="filter-btn-large"
-                            label="on" 
+                            label="Filtrar" 
                             icon={<FilterIcon  style={white}/>}
                             style={{  marginLeft:14 }}
                             labelStyle={white}

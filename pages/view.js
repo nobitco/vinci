@@ -23,9 +23,13 @@ export default class extends Page {
     super(props)
     this.state = {
       email: '',
+      searchText: '',
+      filtersMenuOn: false
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleEmailChange = this.handleEmailChange.bind(this)
+    this.setSearchText = this.setSearchText.bind(this)
+    this.filtersMenuOn = this.filtersMenuOn.bind(this)
 
 
   }
@@ -48,6 +52,14 @@ export default class extends Page {
       // @FIXME Handle error
       console.log(err)
     })
+  }
+  
+  setSearchText(textValue){
+    this.setState({searchText : textValue})
+  }
+  
+  filtersMenuOn(booleanValue){
+    this.setState({filtersMenuOn: booleanValue})
   }
     
 
@@ -101,16 +113,19 @@ export default class extends Page {
         }
         
     ];
-        
+ 
+    const displayFiltersMenu = () => {
+      return this.state.filtersMenuOn &&  <Filters/>
+    }
     
-
+console.log('show menu:' + this.state.filtersMenuOn + "  Search value:" + this.state.searchText)
     
     return (
       <MuiThemeProvider muiTheme={vinciTheme(this.props.userAgent)}>
         <Layout title='Usuarios'>
-            <Header />
-            <Filters />
-            <Panel content={users}/>
+            <Header showFiltersMenu={this.filtersMenuOn} searchText={this.setSearchText} />
+           { displayFiltersMenu() }
+            <Panel content={users} searchText={this.state.searchText}/>
         </Layout>
       </MuiThemeProvider>
     )

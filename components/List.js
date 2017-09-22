@@ -26,6 +26,30 @@ export default class extends React.Component {
             selected: selectedRows,
         });
     }
+    putOnList = (item, key) => {
+      
+      var searchText = this.props.searchText  
+      
+      item.name.toLowerCase().indexOf(searchText) || 
+      item.funcion.toLowerCase().indexOf(searchText) ||
+      item.horario.toLowerCase().indexOf(searchText) ||
+      item.ubicacion.toLowerCase().indexOf(searchText) ||
+      item.zona.toLowerCase().indexOf(searchText)  ||
+      searchText == '' &&  this.makeListItem(item, key)
+      
+    } 
+    
+    makeListItem = (item,key) => {
+     return  (<TableRow key={key} selected={this.isSelected(key)}>
+                                    <TableRowColumn style={smallTd}> <Avatar src={item.url} /></TableRowColumn>
+                                    <TableRowColumn> {item.name}</TableRowColumn>
+                                    <TableRowColumn>{item.funcion}</TableRowColumn>
+                                    <TableRowColumn>{item.horario}</TableRowColumn>
+                                    <TableRowColumn>{item.ubicacion}</TableRowColumn>
+                                    <TableRowColumn>{item.zona}</TableRowColumn>
+       </TableRow>)
+    }
+    
     getTable = (items) => {
         const smallTd = {   width: 75 };
        return( <Table onRowSelection={this.handleRowSelection} multiSelectable={true}>
@@ -43,14 +67,7 @@ export default class extends React.Component {
                 { 
                     items.map((item, index) => {
                             return  (
-                                <TableRow key={index} selected={this.isSelected(index)}>
-                                    <TableRowColumn style={smallTd}> <Avatar src={item.url} /></TableRowColumn>
-                                    <TableRowColumn> {item.name}</TableRowColumn>
-                                    <TableRowColumn>{item.funcion}</TableRowColumn>
-                                    <TableRowColumn>{item.horario}</TableRowColumn>
-                                    <TableRowColumn>{item.ubicacion}</TableRowColumn>
-                                    <TableRowColumn>{item.zona}</TableRowColumn>
-                                </TableRow>
+                               this.putOnList(item, index)
                             )
                     })
                 }

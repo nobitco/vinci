@@ -25,9 +25,11 @@ export default class extends React.Component {
   }
   handleSearchBarChange(textValue){
     this.setState({searchText : textValue });
+    this.props.searchText(this.state.searchText);
   }
   handleFilterBtnChange(booleanValue){
     this.setState({showFiltersMenu : booleanValue });
+    this.props.showFiltersMenu(this.state.showFiltersMenu);
   }
 
   render() {
