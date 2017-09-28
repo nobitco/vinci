@@ -8,8 +8,6 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-    
-
 
 
 export default class extends React.Component {
@@ -17,6 +15,7 @@ export default class extends React.Component {
     state = {
         selected: [1],
     }
+
     isSelected = (index) => {
         return this.state.selected.indexOf(index) !== -1;
     }
@@ -26,56 +25,49 @@ export default class extends React.Component {
             selected: selectedRows,
         });
     }
-    putOnList = (item, key) => {
-      
-      var searchText = this.props.searchText  
-      
-      item.name.toLowerCase().indexOf(searchText) || 
-      item.funcion.toLowerCase().indexOf(searchText) ||
-      item.horario.toLowerCase().indexOf(searchText) ||
-      item.ubicacion.toLowerCase().indexOf(searchText) ||
-      item.zona.toLowerCase().indexOf(searchText)  ||
-      searchText == '' &&  this.makeListItem(item, key)
-      
-    } 
-    
-    makeListItem = (item,key) => {
-     return  (<TableRow key={key} selected={this.isSelected(key)}>
-                                    <TableRowColumn style={smallTd}> <Avatar src={item.url} /></TableRowColumn>
-                                    <TableRowColumn> {item.name}</TableRowColumn>
-                                    <TableRowColumn>{item.funcion}</TableRowColumn>
-                                    <TableRowColumn>{item.horario}</TableRowColumn>
-                                    <TableRowColumn>{item.ubicacion}</TableRowColumn>
-                                    <TableRowColumn>{item.zona}</TableRowColumn>
-       </TableRow>)
-    }
-    
-    getTable = (items) => {
-        const smallTd = {   width: 75 };
-       return( <Table onRowSelection={this.handleRowSelection} multiSelectable={true}>
-            <TableHeader>
-                <TableRow>
-                    <TableHeaderColumn style={smallTd}> </TableHeaderColumn>
-                    <TableHeaderColumn>Nombre</TableHeaderColumn>
-                    <TableHeaderColumn>Función</TableHeaderColumn>
-                    <TableHeaderColumn>Horario</TableHeaderColumn>
-                    <TableHeaderColumn>Ubicación</TableHeaderColumn>
-                    <TableHeaderColumn>Zona</TableHeaderColumn>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                { 
-                    items.map((item, index) => {
-                            return  (
-                               this.putOnList(item, index)
-                            )
-                    })
-                }
-            </TableBody>
-        </Table>)};
+  
+  
 
     render(){
-        return (<div className='light row'>{ this.getTable(this.props.items) }</div>)
+        let rows = [];
+        let filterText = this.props.searchText.toLowerCase()
+   
+        this.props.items.forEach( (item, index) => { 
+                        
+                        if(item.name.toLowerCase().indexOf(filterText) === -1){
+                          return;
+                        }else{
+                          rows.push(
+                              <TableRow key={index} selected={this.isSelected(index)}>
+                                <TableRowColumn style={{width:75}}> 
+                                  <Avatar src={item.url} />
+                                </TableRowColumn>
+                                <TableRowColumn> {item.name}</TableRowColumn>
+                                <TableRowColumn>{item.funcion}</TableRowColumn>
+                                <TableRowColumn>{item.horario}</TableRowColumn>
+                                <TableRowColumn>{item.ubicacion}</TableRowColumn>
+                                <TableRowColumn>{item.zona}</TableRowColumn>
+                              </TableRow>)
+                        }});
+      
+        return (<div className='light row'>
+                  <Table onRowSelection={this.handleRowSelection} multiSelectable={true}>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHeaderColumn style={{width:75}}> </TableHeaderColumn>
+                                <TableHeaderColumn>Nombre</TableHeaderColumn>
+                                <TableHeaderColumn>Función</TableHeaderColumn>
+                                <TableHeaderColumn>Horario</TableHeaderColumn>
+                                <TableHeaderColumn>Ubicación</TableHeaderColumn>
+                                <TableHeaderColumn>Zona</TableHeaderColumn>
+                            </TableRow>
+                        </TableHeader>
+                    <TableBody>
+                      {rows}
+                    </TableBody>
+                  </Table>
+              </div>)
     }
     
 }
+

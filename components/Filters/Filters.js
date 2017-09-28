@@ -10,11 +10,23 @@ export default class  extends React.Component {
     
     constructor(props){
         super(props);
-        this.state = { funcion:'Supervisor', zona: '1' };
+        this.values = { funcion:'',
+                        zona: '',
+                        horario: ['9am', '8pm'] 
+                      }
     }
-
-
   
+    handleFunctionChange = (value) => { this.values.funcion = value 
+                                        this.props.onValuesChange(this.values) }
+    
+    handleZoneChange = (value) => { this.values.zona = value
+                                    this.props.onValuesChange(this.values) }
+    
+    /*handleScheduleChange = (values) => { this.values.horario[0] = values[0]
+                                         this.values.horario[1] = values[1]
+                                        this.props.onValuesChange(this.values)
+                                        }*/
+     
     render(){
         
          const funciones = [ 'Cualquier funcion','Coordinador' , 'Supervisor' , 'Circuitos', 'Alcoholimetros' , 'Casos Especiales', 'Suplentes'];
@@ -25,19 +37,32 @@ export default class  extends React.Component {
                   marginTop:6,
                   color: grey600
          }
-        
+         
+        var values = this.props.values;
+      
         return (
            
                 <div className='row ' id='filters-set'>
                     <div className='col s5 m4 l3 push-s1 push-l2  filter limit'>
-                        <FilterMenu items={funciones}  default={funciones[0]} labelIcon={<FunctionIcon style={labelIconStyle}/>}/>
+                        <FilterMenu items={funciones}  
+                          default={funciones[0]} 
+                          labelIcon={<FunctionIcon style={labelIconStyle}/>}
+                          value={values.funcion}
+                          onValueChange={this.handleFunctionChange}
+                          />
                     </div>
                     <div className='col s5 m3 l2 push-s1  push-l2  filter limit'>
-                        <FilterMenu items={zonas}  default={zonas[0]}  labelIcon={<ZoneIcon style={labelIconStyle}/>}/>
+                        <FilterMenu items={zonas}  
+                          default={zonas[0]} 
+                          labelIcon={<ZoneIcon style={labelIconStyle}/>}
+                          value={values.zona}
+                          onValueChange={this.handleZoneChange}
+                          />
                     </div>
                     <div className='col s11 m5 l7 push-s1  push-l2  filter limit2'>
                        <FilterRange labelIcon={<ScheduleIcon style={labelIconStyle}/>}
-                       style={{marginLeft:28}} />
+                       style={{marginLeft:28}} 
+                         />
                     </div>
                
             

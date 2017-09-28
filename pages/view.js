@@ -11,11 +11,14 @@ import Header from '../components/Header/Header'
 import Panel from '../components/Panel'
 import Filters from '../components/Filters/Filters'
 
-export default class extends Page {
+export default class extends Page{
 
   async componentDidMount() {
     this.state = {
       email: this.state.email,
+      searchText: '',
+      showFilterMenu: false,
+      filtersValues: {}
     }
   }
 
@@ -24,16 +27,14 @@ export default class extends Page {
     this.state = {
       email: '',
       searchText: '',
-      filtersMenuOn: false
+      showFilterMenu: false ,
+      filtersValues: {}
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleEmailChange = this.handleEmailChange.bind(this)
-    this.setSearchText = this.setSearchText.bind(this)
-    this.filtersMenuOn = this.filtersMenuOn.bind(this)
-
-
   }
-
+  
+  
   handleEmailChange(event) {
     this.setState({
       email: event.target.value.trim(),
@@ -54,20 +55,14 @@ export default class extends Page {
     })
   }
   
-  setSearchText(textValue){
-    this.setState({searchText : textValue})
-  }
+    
+  setFiltersValues = (valuesObj) => { this.setState({ filtersValues : valuesObj })  }
   
-  filtersMenuOn(booleanValue){
-    this.setState({filtersMenuOn: booleanValue})
-  }
-    
-
+  setSearchbarValues = (valuesObj) =>{  this.setState({ searchText : valuesObj.searchText , showFilterMenu : valuesObj.toggle })  }
+  
+ 
+  
   render() {
-    
-    const inputMargin = {
-        marginLeft: 10
-    };
       
     const users = [
         
@@ -113,19 +108,16 @@ export default class extends Page {
         }
         
     ];
- 
-    const displayFiltersMenu = () => {
-      return this.state.filtersMenuOn &&  <Filters/>
-    }
-    
-console.log('show menu:' + this.state.filtersMenuOn + "  Search value:" + this.state.searchText)
     
     return (
       <MuiThemeProvider muiTheme={vinciTheme(this.props.userAgent)}>
         <Layout title='Usuarios'>
-            <Header showFiltersMenu={this.filtersMenuOn} searchText={this.setSearchText} />
-           { displayFiltersMenu() }
-            <Panel content={users} searchText={this.state.searchText}/>
+            <Header onValuesChange={this.setSearchbarValues} 
+                    searchBarValue={this.state.searchText}/>
+                    { this.state.showFilterMenu && <Filters values={this.state.filtersValues} onValuesChange={this.setFiltersValues}/> }
+            <Panel content={users} 
+                    searchText={this.state.searchText} 
+                    filters={this.state.filtersValues}/>
         </Layout>
       </MuiThemeProvider>
     )

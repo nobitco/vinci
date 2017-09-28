@@ -10,12 +10,6 @@ export default class extends React.Component {
   
   constructor(props){
     super(props)
-    this.state={
-      showFiltersMenu : false,
-      searchText: ''
-    }
-    this.handleFilterBtnChange = this.handleFilterBtnChange.bind(this);
-    this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
   }
 
   static propTypes() {
@@ -23,15 +17,9 @@ export default class extends React.Component {
       session: React.propTypes.object.isRequired
     }
   }
-  handleSearchBarChange(textValue){
-    this.setState({searchText : textValue });
-    this.props.searchText(this.state.searchText);
-  }
-  handleFilterBtnChange(booleanValue){
-    this.setState({showFiltersMenu : booleanValue });
-    this.props.showFiltersMenu(this.state.showFiltersMenu);
-  }
-
+  
+  handleValuesChange = (obj) => { this.props.onValuesChange(obj) }
+  
   render() {
     
     return (
@@ -41,8 +29,8 @@ export default class extends React.Component {
               title='Vinci' 
               iconElementRight={<UserMenu />} 
               iconElementLeft={<SearchBar className='col s12 push-s1 push-m1 m11' 
-                                          onFilterBtnChange={this.handleFilterBtnChange}
-                                          onSearchBarValueChange={this.handleSearchBarChange}
+                                          onChangeValues={this.handleValuesChange}
+                                          value={this.props.searchText}
                                  />} 
               iconStyleLeft={{order:2, marginLeft: 'auto'}}
               iconStyleRight={{order:3, marginTop:12}}
