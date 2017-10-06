@@ -18,7 +18,11 @@ export default class extends Page{
       email: this.state.email,
       searchText: '',
       showFilterMenu: false,
-      filtersValues: {}
+      filtersValues: {
+          funcion: 'Todas',
+          zona: 'Todas',
+          horario: [null, null]
+      }
     }
   }
 
@@ -28,7 +32,11 @@ export default class extends Page{
       email: '',
       searchText: '',
       showFilterMenu: false ,
-      filtersValues: {}
+      filtersValues: {
+          funcion: 'Todas',
+          zona: 'Todas',
+          horario: [null, null]
+      }
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleEmailChange = this.handleEmailChange.bind(this)
@@ -59,6 +67,7 @@ export default class extends Page{
   setFiltersValues = (valuesObj) => { this.setState({ filtersValues : valuesObj })  }
   
   setSearchbarValues = (valuesObj) =>{  this.setState({ searchText : valuesObj.searchText , showFilterMenu : valuesObj.toggle })  }
+  
   
  
   
@@ -109,15 +118,19 @@ export default class extends Page{
         
     ];
     
+    var filterValues = this.state.filtersValues;
+    
     return (
       <MuiThemeProvider muiTheme={vinciTheme(this.props.userAgent)}>
         <Layout title='Usuarios'>
             <Header onValuesChange={this.setSearchbarValues} 
                     searchBarValue={this.state.searchText}/>
-                    { this.state.showFilterMenu && <Filters values={this.state.filtersValues} onValuesChange={this.setFiltersValues}/> }
+                    { this.state.showFilterMenu && <Filters onValuesChange={this.setFiltersValues} 
+                                                            values={filterValues} /> }
             <Panel content={users} 
-                    searchText={this.state.searchText} 
-                    filters={this.state.filtersValues}/>
+                   searchText={this.state.searchText}
+                   filterValues = {filterValues} 
+                   />
         </Layout>
       </MuiThemeProvider>
     )

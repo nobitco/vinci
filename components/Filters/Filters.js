@@ -10,9 +10,9 @@ export default class  extends React.Component {
     
     constructor(props){
         super(props);
-        this.values = { funcion:'',
-                        zona: '',
-                        horario: ['9am', '8pm'] 
+        this.values = { funcion:'Todas',
+                        zona: 'Todas',
+                        horario: [null, null] 
                       }
     }
   
@@ -22,22 +22,21 @@ export default class  extends React.Component {
     handleZoneChange = (value) => { this.values.zona = value
                                     this.props.onValuesChange(this.values) }
     
-    /*handleScheduleChange = (values) => { this.values.horario[0] = values[0]
+    handleScheduleChange = (values) => { this.values.horario[0] = values[0]
                                          this.values.horario[1] = values[1]
-                                        this.props.onValuesChange(this.values)
-                                        }*/
+                                         this.props.onValuesChange(this.values)
+                                        }
      
     render(){
         
-         const funciones = [ 'Cualquier funcion','Coordinador' , 'Supervisor' , 'Circuitos', 'Alcoholimetros' , 'Casos Especiales', 'Suplentes'];
-         const zonas = [ 'Cualquier zona','Zona 1' , 'Zona 2', 'Zona 3' ,'Zona 4', 'Zona 5', 'Zona 6'];
+         const funciones = [ 'Todas','Coordinador' , 'Supervisor' , 'Circuitos', 'Alcoholimetros' , 'Casos Especiales', 'Suplentes'];
+         const zonas = [ 'Todas','1' , '2', '3' ,'4', '5', '6'];
          const jornadas = [ 'Todos','Diurno','Nocturno'] ;
          const labelIconStyle = {
                   marginRight:-13,
                   marginTop:6,
                   color: grey600
          }
-         
         var values = this.props.values;
       
         return (
@@ -61,7 +60,9 @@ export default class  extends React.Component {
                     </div>
                     <div className='col s11 m5 l7 push-s1  push-l2  filter limit2'>
                        <FilterRange labelIcon={<ScheduleIcon style={labelIconStyle}/>}
-                       style={{marginLeft:28}} 
+                                    style={{marginLeft:28}} 
+                                    values={values.horario}
+                                    onValueChange={this.handleScheduleChange}
                          />
                     </div>
                

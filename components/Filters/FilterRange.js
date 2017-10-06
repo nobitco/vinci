@@ -10,24 +10,31 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
  class FilterSlider extends React.Component{
     
     constructor(props){
-        super(props);
-        this.state = {
-          picker1 : null,
-          picker2: null
-        }
+        super(props)
+        this.dates = [ null, null ]
     }
    
-   handleChangePicker1 = (event, date) => { this.setState({ picker1: date })  }
+   handleChangePicker1 = (event, date) => { 
+       this.dates[0] = date
+       this.props.onValueChange(this.dates)
+   }
    
-   handleChangePicker2 = (event, date) => {  this.setState({ picker2: date })  }
+   handleChangePicker2 = (event, date) => {
+       this.dates[1] = date
+       this.props.onValueChange(this.dates)
+   }
    
-   clearTimePickers = () => { this.setState({ picker1: null , picker2: null}) }
+   clearTimePickers = () => { 
+       this.dates = this.dates.map(  (date) => { date = null }   )
+       this.props.onValueChange(this.dates)
+   }
      
    render(){
-      
+      var pickersValues = this.props.values;
+       
       const getClearBtns = () => { 
        
-        let timeSet = (this.state.picker1 != null && this.state.picker2 != null) ? true : false;
+       let timeSet = (pickersValues[0] != null && pickersValues[1] != null) ? true : false;
             
         if(timeSet){ 
                   return (<div>
@@ -70,7 +77,8 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
                 color:grey800,
                 fontSize:15
                 }
-
+        
+        
         return (<div className='holder '>
                 
                     <div  style={{marginRight:20}}> 
@@ -84,7 +92,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
                           textFieldStyle={textFiledStyle}
                           style={{color:grey800}}
                           onChange={this.handleChangePicker1}
-                          value={this.state.picker1}
+                          value={pickersValues[0]}
                         />
                         <TimePicker autoOk={true}
                           id='picker2'
@@ -93,7 +101,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
                           textFieldStyle={textFiledStyle}
                           style={{color:grey800}}
                           onChange={this.handleChangePicker2}
-                          value={this.state.picker2}
+                          value={pickersValues[1]}
                           />
                         {getClearBtns()}
                     </div>
