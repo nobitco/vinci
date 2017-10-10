@@ -20,6 +20,8 @@ export default class extends React.Component {
   
   handleValuesChange = (obj) => { this.props.onValuesChange(obj) }
   
+  handleAdminSettings = () => { this.props.onAdminSettings()  }
+  
   render() {
     
     return (
@@ -27,11 +29,11 @@ export default class extends React.Component {
           <AppBar className='appBar row' 
               showMenuIconButton={true} 
               title='Vinci' 
-              iconElementRight={<UserMenu />} 
+              iconElementRight={<UserMenu onAdminSettings={this.handleAdminSettings}
+                                          user={this.props.user}/>} 
               iconElementLeft={<SearchBar className='col s12 push-s1 push-m1 m11' 
                                           onChangeValues={this.handleValuesChange}
-                                          value={this.props.searchText}
-                                 />} 
+                                          value={this.props.searchText}/>} 
               iconStyleLeft={{order:2, marginLeft: 'auto'}}
               iconStyleRight={{order:3, marginTop:12}}
               style={{ marginBottom:0,

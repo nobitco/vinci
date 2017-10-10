@@ -24,6 +24,8 @@ export default class extends React.Component{
             open:true,
             anchorEl: event.currentTarget,
         });
+        
+        
     }
     
     handleRequestClose = () => {
@@ -32,18 +34,28 @@ export default class extends React.Component{
         });
     }
     
+    handleAdminBtn = (e) => {
+       e.preventDefault()
+       this.handleRequestClose()
+       this.props.onAdminSettings()       
+    }
+    
     render(){
+        const user = this.props.user
+        
         const labelStyles = {
                  marginLeft: 18,
                  marginBottom:2,
                  marginTop:6
         }
-        const UserResume = () => {
+        
+        const AdminBtn = (props) => {
+            
             return (
-                    <a href="" className="userResume grey lighten-4">
-                        <Avatar src="http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg"className='left' size={54}/>
+                    <a href="" className="adminBtn grey lighten-4" onClick={props.onClick}>
+                        <Avatar src={user.url} className='left' size={54}/>
                         <span className='left'>
-                            <h4 style={labelStyles}>Juan Sebastian Zapata</h4>
+                            <h4 style={labelStyles}>{user.name}</h4>
                             <h5 className="grey-text text-darken-2" style={labelStyles}>Admnistrador</h5>
                         </span>
                         
@@ -52,14 +64,14 @@ export default class extends React.Component{
       
         return(
             <div>
-                <Avatar src='http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg' id="userPic" onClick={this.handleTouchTap}/>
+                <Avatar src={user.url} id="userPic" onClick={this.handleTouchTap}/>
                 <Popover open={this.state.open}
                     anchorEl={this.state.anchorEl}
                     anchorOrigin={{horizontal:'right', vertical: 'bottom'}}
                     targetOrigin={{horizontal:'right' , vertical: 'top'}}
                     onRequestClose={this.handleRequestClose}
                 >
-                    <UserResume />
+                    <AdminBtn onClick={this.handleAdminBtn}/>
                     <Menu>
                         <Link href="/login"><a>
                             <MenuItem leftIcon={<ExitIcon />} primaryText='Cerrar Sesión'/></a>

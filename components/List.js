@@ -42,40 +42,52 @@ export default class extends React.Component {
         
     }
     
-    validateExpresion = (expresion) =>  {
+    doesItemMatch = (filtersObj, userObj) =>  {
         
-        expresion >= 0 ? true : false
+     let matches = 0
+     let objSize = 0
+
+     for(var prop in filtersObj){
+             objSize++
+             if(prop != 'undefined' ){
+                 if(typeof filtersObj[prop] === 'string'){ //string filter case
+                     filtersObj[prop].indexOf(userObj[prop]) >= 0 && matches++
+                 }else{                                    // array filter case Ex: horario
+                if(filtersObj[prop][0].getTime() <= userObj[prop][0].getTime() && filtersObj[prop][1].getTime() >= userObj[prop][1].getTime() ) matches++  //FIX
+                 }
+             }
+         }
+        
+     return matches == objSize && true 
+        
     }
 
     render(){
+        
         let rows = [];
         let filterText = this.props.searchText.toLowerCase()
         var filterValues = this.props.filterValues
         var availableFilters = {}
         availableFilters = this.getAvailableFilters(filterValues)
-        console.log(availableFilters)
+       
         this.props.items.forEach( (item, index) => { 
-                       
-           //console.log(item.zona.indexOf(availableFilters.zona) >= 0)
+            console.log(item.name.toLowerCase().indexOf(filterText))
             if(item.name.toLowerCase().indexOf(filterText) === -1){
                 return;
             }else{
-                  if(item.funcion.indexOf(availableFilters.funcion) < 0 | item.zona.indexOf(availableFilters.zona) < 0){
-                       return; 
-                  }else{
-                            console.log('este tipo cumple :  ' + item.name)
-                          rows.push(
-                              <TableRow key={index} selected={this.isSelected(index)}>
+                  if(this.doesItemMatch(availableFilters, item)){
+                    rows.push(
+                    <TableRow key={index} selected={this.isSelected(index)}>
                                 <TableRowColumn style={{width:75}}> 
                                   <Avatar src={item.url} />
                                 </TableRowColumn>
                                 <TableRowColumn> {item.name}</TableRowColumn>
                                 <TableRowColumn>{item.funcion}</TableRowColumn>
-                                <TableRowColumn>{item.horario}</TableRowColumn>
+                                <TableRowColumn>{item.horario[0].toLocaleTimeString('en-US') + ' - ' + item.horario[1].toLocaleTimeString('en-US')}</TableRowColumn>
                                 <TableRowColumn>{item.ubicacion}</TableRowColumn>
                                 <TableRowColumn>{item.zona}</TableRowColumn>
-                              </TableRow>)
-                  }
+                     </TableRow>)
+                  }      
             }
         })
       

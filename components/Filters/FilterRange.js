@@ -17,11 +17,13 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
    handleChangePicker1 = (event, date) => { 
        this.dates[0] = date
        this.props.onValueChange(this.dates)
+       console.log(date.getTime())
    }
    
    handleChangePicker2 = (event, date) => {
        this.dates[1] = date
        this.props.onValueChange(this.dates)
+       console.log(date.toLocaleTimeString('en-US'))
    }
    
    clearTimePickers = () => { 

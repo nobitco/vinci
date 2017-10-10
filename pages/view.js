@@ -10,6 +10,7 @@ import AppBar from 'material-ui/AppBar'
 import Header from '../components/Header/Header'
 import Panel from '../components/Panel'
 import Filters from '../components/Filters/Filters'
+import AdminSettings from '../components/AdminSettings'
 
 export default class extends Page{
 
@@ -22,7 +23,8 @@ export default class extends Page{
           funcion: 'Todas',
           zona: 'Todas',
           horario: [null, null]
-      }
+      },
+      showAdminSettings : false
     }
   }
 
@@ -36,7 +38,8 @@ export default class extends Page{
           funcion: 'Todas',
           zona: 'Todas',
           horario: [null, null]
-      }
+      },
+      showAdminSettings : false
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleEmailChange = this.handleEmailChange.bind(this)
@@ -48,6 +51,8 @@ export default class extends Page{
       email: event.target.value.trim(),
     })
   }
+    
+  
     
   async handleSubmit(event) {
     event.preventDefault()
@@ -68,18 +73,27 @@ export default class extends Page{
   
   setSearchbarValues = (valuesObj) =>{  this.setState({ searchText : valuesObj.searchText , showFilterMenu : valuesObj.toggle })  }
   
+  handleShowAdmin = () => { this.setState( (prevState) => { return {showAdminSettings : !prevState.showAdminSettings}  } )}
+  
   
  
   
   render() {
-      
+    const adminUser = {
+      name: 'Juan Sebastian Zapata',
+      url:'http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg',
+      funcion : 'Coordinador',
+      horario : [new Date(2017, 9, 9, 8, 30, 0 ), new Date(2017, 9, 9, 15, 30, 0 )],
+      ubicacion: 'calle 34 8a 70',
+      zona: '1'
+    }
     const users = [
         
             { 
             name: 'Carlos Aguilar',
             url: 'http://sto.mv/Uploads/Members/chairman.png',
             funcion: 'Coordinador',
-            horario: '4am - 10am',
+            horario: [new Date(2017, 9, 9, 8, 30, 0 ), new Date(2017, 9, 9, 15, 30, 0 )],
             ubicacion: 'Calle 34 8a 70',
             zona: '4'
         },
@@ -87,7 +101,7 @@ export default class extends Page{
             name: 'Antonio Castro',
             url: 'http://sto.mv/Uploads/Members/chairman.png',
             funcion: 'Casos Especiales',
-            horario: '4pm - 10pm',
+            horario: [new Date(2017, 9, 9, 5, 0, 0 ), new Date(2017, 9, 9, 10, 30, 0 )],
             ubicacion: 'Calle 1b 34 78',
             zona: '5'
         },
@@ -95,7 +109,7 @@ export default class extends Page{
             name: 'Lina Burbano',
             url: 'http://sto.mv/Uploads/Members/chairman.png',
             funcion: 'Suplentes',
-            horario: '11pm - 4am',
+            horario: [new Date(2017, 9, 9, 14, 50, 0 ), new Date(2017, 9, 9, 20, 10, 0 )],
             ubicacion: 'Carrera 56 #52 ',
             zona: '2'
         },
@@ -103,7 +117,7 @@ export default class extends Page{
             name: 'Viviana Zapata',
             url: 'http://sto.mv/Uploads/Members/chairman.png',
             funcion: 'Alcoholimetros',
-            horario: '8am - 12m',
+            horario: [new Date(2017, 9, 9, 10, 15, 0 ), new Date(2017, 9, 9, 13, 40, 0 )],
             ubicacion: 'Carrera 17a #62a 23',
             zona: '7'
         },
@@ -111,7 +125,7 @@ export default class extends Page{
             name: 'Velasquez',
             url: 'http://sto.mv/Uploads/Members/chairman.png',
             funcion: 'Casos Especiales',
-            horario: '8am - 12m',
+            horario: [new Date(2017, 9, 9, 18, 10, 0 ), new Date(2017, 9, 9, 12, 30, 0 )],
             ubicacion: 'Calle 1a  #62a 130',
             zona: '4'
         }
@@ -123,8 +137,12 @@ export default class extends Page{
     return (
       <MuiThemeProvider muiTheme={vinciTheme(this.props.userAgent)}>
         <Layout title='Usuarios'>
+            {this.state.showAdminSettings && <AdminSettings onAdminSettings={this.handleShowAdmin} user={adminUser}/>}
             <Header onValuesChange={this.setSearchbarValues} 
-                    searchBarValue={this.state.searchText}/>
+                    searchBarValue={this.state.searchText}
+                    onAdminSettings={this.handleShowAdmin}
+                    user={adminUser}
+                    />
                     { this.state.showFilterMenu && <Filters onValuesChange={this.setFiltersValues} 
                                                             values={filterValues} /> }
             <Panel content={users} 
