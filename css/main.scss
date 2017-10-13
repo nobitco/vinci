@@ -2,7 +2,9 @@
 @import 'mixins';
 @import 'login';
 @import 'appBar';
-
+body{
+  background-color: #fafafa; 
+}
 .container {
   margin: o auto;
   max-width: 80%; 
@@ -50,3 +52,9 @@
     background-color: lightgoldenrodyellow;
 }
 
+.grey{
+  color: #616161 !important;
+}
+.normal-text-weight{
+  font-weight:normal;
+}

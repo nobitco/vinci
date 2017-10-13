@@ -61,6 +61,11 @@ export default class extends React.Component {
      return matches == objSize && true 
         
     }
+    
+    defaultImg = (url) => {
+     
+      (url == '' || url == null || url == 'undefined') ? 'http://sto.mv/Uploads/Members/chairman.png' : url
+    } 
 
     render(){
         
@@ -69,7 +74,7 @@ export default class extends React.Component {
         var filterValues = this.props.filterValues
         var availableFilters = {}
         availableFilters = this.getAvailableFilters(filterValues)
-       
+        
         this.props.items.forEach( (item, index) => { 
             console.log(item.name.toLowerCase().indexOf(filterText))
             if(item.name.toLowerCase().indexOf(filterText) === -1){
@@ -79,7 +84,7 @@ export default class extends React.Component {
                     rows.push(
                     <TableRow key={index} selected={this.isSelected(index)}>
                                 <TableRowColumn style={{width:75}}> 
-                                  <Avatar src={item.url} />
+                                  <Avatar src={item.url == '' || item.url === null ? 'http://sto.mv/Uploads/Members/chairman.png' : item.url} />
                                 </TableRowColumn>
                                 <TableRowColumn> {item.name}</TableRowColumn>
                                 <TableRowColumn>{item.funcion}</TableRowColumn>
@@ -91,7 +96,7 @@ export default class extends React.Component {
             }
         })
       
-        return (<div className='light row'>
+        return (<div className='z-depth-5' id='list'>
                   <Table onRowSelection={this.handleRowSelection} multiSelectable={true}>
                         <TableHeader>
                             <TableRow>
@@ -107,6 +112,18 @@ export default class extends React.Component {
                       {rows}
                     </TableBody>
                   </Table>
+                  <style jsx>{`
+              #list{
+                background-color:#fff;
+                z-index:100;
+                padding:40px 30px;
+                width:408px;
+                position:absolute;
+                top:20px;
+                left:20px;
+
+              }
+            `}</style>
               </div>)
     }
     

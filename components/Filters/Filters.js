@@ -41,7 +41,7 @@ export default class  extends React.Component {
       
         return (
            
-                <div className='row ' id='filters-set'>
+                <div className='row z-depth-1' id='filters-set'>
                     <div className='col s5 m4 l3 push-s1 push-l2  filter limit'>
                         <FilterMenu items={funciones}  
                           default={funciones[0]} 
@@ -69,7 +69,8 @@ export default class  extends React.Component {
             
 <style jsx>{`
 #filters-set{
-background-color:#f5f5f5;
+background-color:#fff;
+margin-bottom:0;
 }
 .filter{
 margin:15px 0;
