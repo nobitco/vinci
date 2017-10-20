@@ -41,25 +41,25 @@ export default class  extends React.Component {
       
         return (
            
-                <div className='row z-depth-1' id='filters-set'>
-                    <div className='col s5 m4 l3 push-s1 push-l2  filter limit'>
+                <div id='filters-set'>
+                    <div >
                         <FilterMenu items={funciones}  
                           default={funciones[0]} 
-                          labelIcon={<FunctionIcon style={labelIconStyle}/>}
+                          labelIcon='Funcion'
                           value={values.funcion}
                           onValueChange={this.handleFunctionChange}
                           />
                     </div>
-                    <div className='col s5 m3 l2 push-s1  push-l2  filter limit'>
+                    <div >
                         <FilterMenu items={zonas}  
                           default={zonas[0]} 
-                          labelIcon={<ZoneIcon style={labelIconStyle}/>}
+                          labelIcon='Zona'
                           value={values.zona}
                           onValueChange={this.handleZoneChange}
                           />
                     </div>
-                    <div className='col s11 m5 l7 push-s1  push-l2  filter limit2'>
-                       <FilterRange labelIcon={<ScheduleIcon style={labelIconStyle}/>}
+                    <div >
+                       <FilterRange label='Horario'
                                     style={{marginLeft:28}} 
                                     values={values.horario}
                                     onValueChange={this.handleScheduleChange}
@@ -69,8 +69,16 @@ export default class  extends React.Component {
             
 <style jsx>{`
 #filters-set{
+position:absolute;
+top:10px;
+left:30%;
+z-index:1500;
 background-color:#fff;
 margin-bottom:0;
+padding: 10px 24px;
+display:flex;
+flex-direction:row;
+justify-content:space-between;
 }
 .filter{
 margin:15px 0;

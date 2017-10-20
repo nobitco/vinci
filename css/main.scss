@@ -2,8 +2,10 @@
 @import 'mixins';
 @import 'login';
 @import 'appBar';
-body{
+html, body{
   background-color: #fafafa; 
+  height:100%;
+  overflow:hidden;
 }
 .container {
   margin: o auto;
@@ -16,7 +18,7 @@ body{
 
 .flex{
     display: flex;
-    &.column{
+    &.column{ 
         flex-direction: column;
     }
     &.wrap{

@@ -2,7 +2,7 @@ import React from 'react'
 import Divider from 'material-ui/Divider'
 import Subheader from 'material-ui/Subheader'
 import TimePicker from 'material-ui/TimePicker'
-import RaisedButton from 'material-ui/RaisedButton'
+import ClearBtn from 'material-ui/IconButton'
 import ClearIcon from 'material-ui/svg-icons/content/clear'
 import {grey800} from 'material-ui/styles/colors'
 import muiThemeable from 'material-ui/styles/muiThemeable'
@@ -34,63 +34,41 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
    render(){
       var pickersValues = this.props.values;
        
-      const getClearBtns = () => { 
+      const getClearBtn = () => { 
        
        let timeSet = (pickersValues[0] != null && pickersValues[1] != null) ? true : false;
             
         if(timeSet){ 
                   return (<div>
-                            <RaisedButton label="Limpiar" 
-                                          className='hide-on-med-and-up toRight'
-                                          id='smallBtn'
-                                          style={{
-                                                  position:'absolute', 
-                                                  right:0, 
-                                                  top:10
-                                                }}
-                                          primary={true}
-                                          onClick={this.clearTimePickers}
-                                          labelStyle={{ 
-                                                        marginLeft: 'auto', 
-                                                        fontSize:10, 
-                                                        fontWeight:'bold'
-                                                      }}
-                                            icon={<ClearIcon style={{width:14}} />}
-                           />
-                            <RaisedButton label="Limpiar " 
-                                          className='hide-on-small-only anim'
-                                          id='largeBtn'
-                                          primary={true}
-                                          onClick={this.clearTimePickers}
-                                          labelStyle={{
-                                                      fontSize:10, 
-                                                      fontWeight:'bold'
-                                                    }}
-                                          icon={<ClearIcon style={{width:14}} />}
-                           />
-
-                        </div>)
-                }}
+                            <ClearBtn className='toRight'                        
+                                      onClick={this.clearTimePickers}
+                                      style={{marginLeft: -18}}>
+                             <ClearIcon style={{width:16}} />
+                         </ClearBtn>
+                    </div>
+                         )
+                }
+      }
       
         const textFiledStyle = {
-                maxWidth: '96px',
+                maxWidth: '60px',
                 margin:'0 10px',
                 marginTop:5,
                 color:grey800,
-                fontSize:15
+                fontSize:12
                 }
         
         
         return (<div className='holder '>
                 
-                    <div  style={{marginRight:20}}> 
-                          {this.props.labelIcon}
+                    <div  className='label'style={{marginRight:20}}> 
+                          {this.props.label}
                     </div>
                     <div className='holder '>
                       <TimePicker autoOk={true} 
                           id='picker1'
                           format='ampm' 
-                          hintText='Comienzo' 
+                          hintText='Inicio' 
                           textFieldStyle={textFiledStyle}
                           style={{color:grey800}}
                           onChange={this.handleChangePicker1}
@@ -105,7 +83,7 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
                           onChange={this.handleChangePicker2}
                           value={pickersValues[1]}
                           />
-                        {getClearBtns()}
+                        {getClearBtn()}
                     </div>
                
                     <style jsx>{`
@@ -116,14 +94,15 @@ import muiThemeable from 'material-ui/styles/muiThemeable'
                         align-items: center;
                         width:100%;
                         position:relative;
+margin-left:-15px;
                       }
-                      .holder-space-around{
-                        display:flex;
-                        width:100%;
-                        flex-direction:row;
-                        justify-content: space-around;
-                        align-items: center;
-                      }
+.label{
+color:#9e9e9e;
+font-size:12px;
+margin-top:2px;
+
+}
+                   
                     `}</style>
                 </div>)
     }

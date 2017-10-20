@@ -8,55 +8,50 @@ import vinciTheme from '../theme/vinci-theme'
 import Link from 'next/link'
 import AppBar from 'material-ui/AppBar'
 import Header from '../components/Header/Header'
-import Content from '../components/Content'
-import Filters from '../components/Filters/Filters'
 import AdminSettings from '../components/AdminSettings'
+import ListPanel from '../components/ListPanel'
+import Map from '../components/Map'
+import Filters from '../components/Filters/Filters'
+
+const isWindow = typeof window !== 'undefined'  //if document.window already exist for innerHeigt to Map
 
 export default class extends Page{
 
+   constructor(props) {
+     
+    super(props)
+    
+    this.state = {
+      email: '',  
+      showAdminSettings : false,
+      filtersValues: { 
+        funcion : 'Todas',
+        zona : 'Todas',
+        horario : [null, null]
+      },
+      viewportHeight : 1000
+    }    
+    
+    this.handleSubmit = this.handleSubmit.bind(this)
+     
+    }
+  
   async componentDidMount() {
     this.state = {
       email: this.state.email,
-      searchText: '',
-      showFilterMenu: false,
-      filtersValues: {
-          funcion: 'Todas',
-          zona: 'Todas',
-          horario: [null, null]
-      },
       showAdminSettings : false,
-      showMap : false
+      filtersValues: { 
+        funcion : 'Todas',
+        zona : 'Todas',
+        horario : [null, null] 
+      },
+      viewportHeight : 1000
     }
   }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      email: '',
-      searchText: '',
-      showFilterMenu: false ,
-      filtersValues: {
-          funcion: 'Todas',
-          zona: 'Todas',
-          horario: [null, null]
-      },
-      showAdminSettings : false,
-      showMap : false
-    }
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleEmailChange = this.handleEmailChange.bind(this)
-  }
   
-  
-  handleEmailChange(event) {
-    this.setState({
-      email: event.target.value.trim(),
-    })
-  }
+  handleEmailChange = (event) => {  this.setState({ email: event.target.value.trim() })  }
     
-  
-    
-  async handleSubmit(event) {
+  async handleSubmit(event){
     event.preventDefault()
 
     const session = new Session()
@@ -69,20 +64,53 @@ export default class extends Page{
       console.log(err)
     })
   }
-  
-    
-  setFiltersValues = (valuesObj) => { this.setState({ filtersValues : valuesObj })  }
-  
-  setSearchbarValues = (valuesObj) =>{  this.setState({ searchText : valuesObj.searchText , showFilterMenu : valuesObj.toggle })  }
-  
+   
+      
   handleShowAdmin = () => { this.setState( (prevState) => { return {showAdminSettings : !prevState.showAdminSettings}  } )}
+    
+  getFiltersValues = (obj) => {
+    this.setState({
+      filtersValues: obj
+    })
+  }
   
-  handleShowMap = () => {  this.setState((prevState) => {  return {showMap: !prevState.showMap}}) }
+  doesUserMatch = (user, filtersObj) => {
+    let matches = 0
+     let objSize = 0
+
+     for(var prop in filtersObj){
+             objSize++
+             if(prop != 'undefined' ){
+                 if(typeof filtersObj[prop] === 'string'){ //string filter case
+                     filtersObj[prop].indexOf(user[prop]) >= 0 && matches++
+                 }else{                                    // array filter case Ex: horario
+                if(filtersObj[prop][0].getTime() <= user[prop][0].getTime() && filtersObj[prop][1].getTime() >= user[prop][1].getTime() ) matches++  //FIX
+                 }
+             }
+      }
+        
+     return matches == objSize && true 
+    
+  }
   
-  
- 
+  getAvailableFilters = (obj) =>  {
+        
+        let filters = {}
+
+        for(var prop in obj){
+            if(typeof obj[prop] === 'string'){  
+                 if(obj[prop] != 'Todas') filters[prop] = obj[prop] 
+            }else{  // case for array items on obj
+                if(obj[prop][0] != null  && obj[prop][1] != null ) filters[prop] = obj[prop]
+            }      
+        }
+        
+    return filters
+        
+    }
   
   render() {
+    
     const adminUser = {
       name: 'Juan Sebastian Zapata',
       url:'http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg',
@@ -91,6 +119,7 @@ export default class extends Page{
       ubicacion: 'calle 34 8a 70',
       zona: '1'
     }
+    
     const users = [
         
             { 
@@ -100,7 +129,7 @@ export default class extends Page{
             horario: [new Date(2017, 9, 9, 8, 30, 0 ), new Date(2017, 9, 9, 15, 30, 0 )],
             ubicacion: 'Calle 34 8a 70',
             zona: '4'
-        },
+          },
          { 
             name: 'Antonio Castro',
             url: 'http://www.concordrusam.com/wp-content/uploads/2017/10/pro.jpg',
@@ -119,7 +148,7 @@ export default class extends Page{
         },
          { 
             name: 'Viviana Zapata',
-            url: 'https://dcrinz9r0kxxp.cloudfront.net/wp-content/uploads/2016/09/michelle-prince-profile-img.png',
+            url: 'http://gaia.adage.com/images/bin/image/Women2013AngelaCourtin.jpg',
             funcion: 'Alcoholimetros',
             horario: [new Date(2017, 9, 9, 10, 15, 0 ), new Date(2017, 9, 9, 13, 40, 0 )],
             ubicacion: 'Carrera 17a #62a 23',
@@ -134,28 +163,53 @@ export default class extends Page{
             zona: '4'
         }
         
-    ];
+    ]
     
-    var filterValues = this.state.filtersValues;
+    //get Filters different from All matches
+    var availableFilters = this.getAvailableFilters(this.state.filtersValues)
     
+    //store users that match with available filters
+    var filteredUsers = []
+    users.forEach((user) =>{
+       this.doesUserMatch(user, availableFilters) && filteredUsers.push(user)
+    })
+    console.log(availableFilters)
+    console.log(filteredUsers)
+    // keep the map wrapper height updated!
+    var windowHeight 
+    if(isWindow){
+      window.onresize = () => {  this.setState({  viewportHeight : window.innerHeight })  }
+      windowHeight = this.state.viewportHeight
+    } 
+      
     return (
       <MuiThemeProvider muiTheme={vinciTheme(this.props.userAgent)}>
         <Layout title='Usuarios'>
             {this.state.showAdminSettings && <AdminSettings onAdminSettings={this.handleShowAdmin} user={adminUser}/>}
-            <Header onValuesChange={this.setSearchbarValues} 
-                    searchBarValue={this.state.searchText}
-                    onAdminSettings={this.handleShowAdmin}
+          <div id='mainContainer'>
+              <Header onAdminSettings={this.handleShowAdmin}
                     onMapBtn={this.handleShowMap}
-                    user={adminUser}
-                    
-                    />
-                    { this.state.showFilterMenu && <Filters onValuesChange={this.setFiltersValues} 
-                                                            values={filterValues} /> }
-            <Content content={users} 
-                   searchText={this.state.searchText}
-                   filterValues = {filterValues} 
-                   showMap = {this.state.showMap}
-                   />
+                    user={adminUser}/>
+              <ListPanel users={filteredUsers} />
+              <Filters onValuesChange={this.getFiltersValues}
+                       values={this.state.filtersValues} /> 
+                {  
+                  isWindow && <Map showMarkers
+                                   googleMapURL='https://maps.googleapis.com/maps/api/js?key=AIzaSyDNjKlfP4zfk-HQx0la2KI7dSjaFRb5y1c&v=3.exp&libraries=geometry,drawing,places'
+                                   loadingElement={<div style={{ height: '100%' }} />}
+                                   containerElement={<div style={{ height: windowHeight, position: 'relative', top:-66, left: 0 }} />}
+                                   mapElement={<div id='map'style={{ height: '100%' }} />}
+                                   users={filteredUsers}
+                                   
+                              />  
+                }
+              <style jsx>{`
+              #mainContainer{
+                position:relative;
+                height:100%;
+              }
+            `}</style>
+          </div>
         </Layout>
       </MuiThemeProvider>
     )

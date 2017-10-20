@@ -1,8 +1,8 @@
 import React from 'react'
-import FlatButton from 'material-ui/FlatButton'
+import FilterBtn from 'material-ui/IconButton'
 import FilterIcon from 'material-ui/svg-icons/content/filter-list'
 import SearchIcon  from 'material-ui/svg-icons/action/search'
-
+import {grey500, grey700} from 'material-ui/styles/colors'
 
 export default class SearchBar extends React.Component {
   
@@ -16,82 +16,82 @@ export default class SearchBar extends React.Component {
   
    
     handleSearchBar =  (e) => { this.values.searchText = e.target.value
-                                this.props.onChangeValues(this.values) }
+                                this.props.onValuesChange(this.values) }
     
     handleFilterBtn = () => { this.values.toggle = !this.values.toggle
-                              this.props.onChangeValues(this.values)  }
+                              this.props.onValuesChange(this.values)  }
     
     render(){
       
       const white = { color: '#FFF', fill:'#FFF' }
+      const searchBtnStyle = {
+        padding:'12px 22px',
+        overflow: 'visible',
+        color: grey500,
+        left:0
+        
+      }
       
       return (
               
-                    <div id='search-set' className={this.props.className} >
-                      <div id='searchBar-container' className='left'>
-                        <SearchIcon style={{ width:30 , height: 24}} color='black' />
+                    <div id='searchBar-container' >
+                        <div className='absolute' style={searchBtnStyle}>
+                          <SearchIcon id='searchBtn'  color={grey500} />
+                        </div>
                         <input  id='search-input' 
                           type='text' 
                           placeholder='Buscar...' 
                           onChange = {this.handleSearchBar}
                           value={this.props.value}/>
-                      </div>
-                      <FlatButton 
-                            className= "left hide-on-small-only"
-                            id="filter-btn-large"
-                            label="Filtrar" 
-                            icon={<FilterIcon  style={white}/>}
-                            style={{  marginLeft:14 }}
-                            labelStyle={white}
-                            onClick={this.handleFilterBtn}
-                      />
-                      <FlatButton 
-                            className= "left hide-on-med-and-up"
-                            id="filter-btn-small"
-                            icon={<FilterIcon  style={white}/>}
-                            style={{  marginLeft:0, minWidth: 48  }}
-                            onClick={this.handleFilterBtn}
-                      />
+                          <div className='absolute' style={{right:0}}>
+                            <FilterBtn onClick={this.handleFilterBtn} >
+                              <FilterIcon color={grey700}/>
+                            </FilterBtn>
+                          </div>
+               
+ 
+                  
             
                       <style jsx>{`
 
-                          #search-set{
-                            margin-top:7px;
-                            margin-left:auto;
-                            width:100%;
-                          } 
 
                           #searchBar-container{
-                            padding: 5px 24px;
+                            padding: 12px 104px 12px 72px;
                             border:1px solid #ebebeb;
                             display:flex;
-                            border-radius: 2px;
-                            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
-                            transition: box-shadow 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
-                            background-color: #fff;
-                            width:68%;
-                          }
-
-                          #searchBar-container:hover{
-                            box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
-                          }
-
-                          #search-set{
-                            vertical-align: top;
                             position:relative;
+                          
+                            background-color: #fff;
+                            width:100%;
+
+                            height:48px;
                           }
+
+                          .absolute{
+                          position:absolute;
+                          top:0;
+                          display:block;
+                          overflow:visible;
+
+                          }
+
+      
+
+                         
 
                           input[type=text]#search-input{
                             border: none;
                             height: 24px;
                             z-index: 1;
                             color: rgba(0, 0, 0, 0.87);
-                            margin-left:20px;
                             width: 100%;
-                            max-width:1200px;
-                            font-size:18px;
+                            
+                            font-size:16px;
                           }
-
+                          input[type=text]#search-input::placeholder{
+                            color:#9e9e9e;
+font-weight:bold;
+                            }
                           input[type=text]#search-input:focus{
                             outline:none;
                           }

@@ -10,6 +10,8 @@ export default class extends React.Component {
       children: React.PropTypes.object.isRequired
     }
   }
+  
+  
 
   render() {
     return (
@@ -21,4 +23,5 @@ export default class extends React.Component {
       </div>  
     )
   }
+  
 }
