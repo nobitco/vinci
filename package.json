@@ -14,11 +14,14 @@
     "react-tap-event-plugin": "^2.0.1",
     "sass-loader": "^6.0.6"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "standard": "^10.0.3"
+  },
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "standard"  
   },
   "repository": {
     "type": "git",

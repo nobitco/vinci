@@ -12,31 +12,35 @@ import {grey600} from 'material-ui/styles/colors'
 
 export default class List extends React.Component {
     
-    state = {
-        selected: [1],
+    constructor(props){
+      super(props)
+      this.state = {
+        selected: [],
+      }
+      this.selectedObjs = []
     }
 
     isSelected = (index) => {
         return this.state.selected.indexOf(index) !== -1;
     }
     
-    handleRowSelection = (selectedRows) => {
-        this.setState({
-            selected: selectedRows,
-        });
+    getSelectedObjsId = (selected, listItems) => {
+       return selected.map(  (selectedIndex) => listItems[selectedIndex].id )
     }
-  
+    
+    handleRowSelection = (selectedRows) => {
+      this.setState({ selected: selectedRows }); 
+      this.props.onSelectedItems(this.getSelectedObjsId(selectedRows, this.props.items))
+    }
     
     defaultImg = (url) => {
-     
       (url == '' || url == null || url == 'undefined') ? 'http://sto.mv/Uploads/Members/chairman.png' : url
     } 
     
-    aditionalInfo =(item) =>(
+    aditionalInfo = (item) =>(
       <div>
-      <div >{item.horario[0].toLocaleTimeString('en-US') + ' - ' + item.horario[1].toLocaleTimeString('en-US')}</div>
-                         
-    <div>{item.ubicacion} Zona {item.zona}</div>
+        <div >{item.horario[0].toLocaleTimeString('en-US') + ' - ' + item.horario[1].toLocaleTimeString('en-US')}</div>                 
+        <div>{item.ubicacion} Zona {item.zona}</div>
       </div>
     )
 
@@ -44,29 +48,9 @@ export default class List extends React.Component {
         
         let rows = [];
         let filterText = this.props.searchText.toLowerCase()
-        var items = this.props.items
-        console.log(items)
-        if( items != 'undefined' || items != null ){
-          items.forEach( (item, index) => { 
-              if(item.name.toLowerCase().indexOf(filterText) === -1){
-                  return;
-              }else{
-
-                      rows.push(
-                      <TableRow key={index} selected={this.isSelected(index)} displayBorder={false}>
-                                  <TableRowColumn style={{width:75}}> 
-                                    <Avatar src={item.url == '' || item.url === null ? 'http://sto.mv/Uploads/Members/chairman.png' : item.url} />
-                                  </TableRowColumn>
-                                  <TableRowColumn>
-                                    <h3 style={{marginBottom:3}}>{item.name}</h3>
-                                    <h4 style={{color: grey600, marginTop:10}}>{item.funcion}</h4>                            
-                                  </TableRowColumn>                          
-                       </TableRow>)
-
-              }
-          })
-        }
-      
+        var items = this.props.items        
+        this.getSelectedObjsId(this.state.selected , items)
+        
         return (<div id='list'>
                   <Table onRowSelection={this.handleRowSelection} multiSelectable={true}>
                         <TableHeader>
@@ -76,7 +60,23 @@ export default class List extends React.Component {
                             </TableRow>
                         </TableHeader>
                     <TableBody>
-                      {rows}
+                      {
+                        items.map((item, index) => (
+                           <TableRow key={index} 
+                                selected={this.isSelected(index)}
+                                displayBorder={false}
+                                className='tableRow'
+                                >
+                                  <TableRowColumn style={{width:75}}> 
+                                    <Avatar src={item.url == '' || item.url === null ? 'http://sto.mv/Uploads/Members/chairman.png' : item.url} />
+                                  </TableRowColumn>
+                                  <TableRowColumn>
+                                    <h3 style={{marginBottom:3}}>{item.name}</h3>
+                                    <h4 style={{color: grey600, marginTop:10}}>{item.funcion}</h4>                  
+                                  </TableRowColumn>                    
+                       </TableRow>
+                        ))
+                      }
                     </TableBody>
                   </Table>
                   <style jsx>{`

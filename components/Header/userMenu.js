@@ -7,7 +7,7 @@ import Link from 'next/link'
 import Avatar from 'material-ui/Avatar'
 
 export default class extends React.Component{
-    
+
     constructor(props){
         super(props);
         this.state = {
@@ -18,7 +18,7 @@ export default class extends React.Component{
     }
     
     
-    handleTouchTap = (event) =>{
+    handleTouchTap = (event) => {
         event.preventDefault();
         this.setState({
             open:true,
@@ -42,7 +42,6 @@ export default class extends React.Component{
     
     render(){
         const user = this.props.user
-        
         const labelStyles = {
                  marginLeft: 18,
                  marginBottom:2,

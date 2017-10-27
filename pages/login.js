@@ -3,7 +3,6 @@ import React from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Page from '../components/page'
 import Layout from '../components/layout'
-import Router from 'next/router'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import vinciTheme from '../theme/vinci-theme'
@@ -13,33 +12,29 @@ import HelpIcon from 'material-ui/svg-icons/action/help'
 import Link from 'next/link'
 
 export default class extends Page {
-
-  async componentDidMount() {
+  async componentDidMount () {
     this.state = {
-      email: this.state.email,
+      email: this.state.email
     }
   }
 
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
-      email: '',
+      email: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleEmailChange = this.handleEmailChange.bind(this)
-
-
   }
 
-  handleEmailChange(event) {
+  handleEmailChange (event) {
     this.setState({
-      email: event.target.value.trim(),
+      email: event.target.value.trim()
     })
   }
-    
-  async handleSubmit(event) {
-    event.preventDefault()
 
+  async handleSubmit (event) {
+    event.preventDefault()
     const session = new Session()
     session.signin(this.state.email)
     .then(() => {
@@ -50,62 +45,60 @@ export default class extends Page {
       console.log(err)
     })
   }
-    
 
-  render() {
-    
+  render () {
     const inputMargin = {
-        marginLeft: 10
-    };
-    
+      marginLeft: 10
+    }
+
     return (
       <MuiThemeProvider muiTheme={vinciTheme(this.props.userAgent)}>
         <Layout title='Login :: Bienvenido a Vinci'>
-            <div className='row'>
-                <div className="loginbox col push-s1 s10 push-m2 m8" >
-                  <h1 className='left'>Vinci</h1>
-                  <form method="post" action="/auth/email/signin" onSubmit={this.handleSubmit}>
-                  <div className='row-fields'>
-                          <UserIcon className="grey-text"/>
-                          <TextField 
-                            floatingLabelText="email"
-                            name="email"
-                            type="email"
-                            value={this.state.email}
-                            onChange={this.handleEmailChange} 
-                            fullWidth={true}
-                            style={inputMargin}
+          <div className='row'>
+            <div className='loginbox col push-s1 s10 push-m2 m8' >
+              <h1 className='left'>Vinci</h1>
+              <form method='post' action='/auth/email/signin' onSubmit={this.handleSubmit}>
+                <div className='row-fields'>
+                  <UserIcon className='grey-text' />
+                  <TextField
+                    floatingLabelText='email'
+                    name='email'
+                    type='email'
+                    value={this.state.email}
+                    onChange={this.handleEmailChange}
+                    fullWidth
+                    style={inputMargin}
                           />
-                    </div>
-                    <div className='row-fields'>   
-                      <PasswordIcon className="grey-text"/>
-                      <TextField 
-                        floatingLabelText="password"
-                        name="password"
-                        type="password"
-                        fullWidth={true}
-                        style={inputMargin}
+                </div>
+                <div className='row-fields'>
+                  <PasswordIcon className='grey-text' />
+                  <TextField
+                    floatingLabelText='password'
+                    name='password'
+                    type='password'
+                    fullWidth
+                    style={inputMargin}
                       />
-                    </div>
-                      <RaisedButton
-                        fullWidth={true}
-                        type="submit"
-                        label="Entrar"
-                        primary
-                        id="submit-btn"
-                        style={{marginTop:50}}
+                </div>
+                <RaisedButton
+                  fullWidth
+                  type='submit'
+                  label='Entrar'
+                  primary
+                  id='submit-btn'
+                  style={{marginTop: 50}}
                       />
 
-                  </form>
-                    <Link href="/index"><a>
-                     <small style={{marginTop:25}} className="right grey-text text-darken-1">
-                         <HelpIcon className="grey-text"
-                                    style={{position:'relative' , top: 7}}/>
+              </form>
+              <Link href='/index'><a>
+                <small style={{marginTop: 25}} className='right grey-text text-darken-1'>
+                  <HelpIcon className='grey-text'
+                    style={{position: 'relative', top: 7}} />
                          Recuperar contraseña
                     </small></a>
-                    </Link>
-                </div>
+              </Link>
             </div>
+          </div>
         </Layout>
       </MuiThemeProvider>
     )

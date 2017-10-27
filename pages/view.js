@@ -10,7 +10,7 @@ import AppBar from 'material-ui/AppBar'
 import Header from '../components/Header/Header'
 import AdminSettings from '../components/AdminSettings'
 import ListPanel from '../components/ListPanel'
-import Map from '../components/Map'
+import MapWrapper from '../components/Map'
 import Filters from '../components/Filters/Filters'
 
 const isWindow = typeof window !== 'undefined'  //if document.window already exist for innerHeigt to Map
@@ -29,7 +29,9 @@ export default class extends Page{
         zona : 'Todas',
         horario : [null, null]
       },
-      viewportHeight : 1000
+      viewportHeight : 2000,
+      selectedUsersId: []
+      
     }    
     
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -45,7 +47,8 @@ export default class extends Page{
         zona : 'Todas',
         horario : [null, null] 
       },
-      viewportHeight : 1000
+      viewportHeight : 1000,
+      selectedUsersId: []
     }
   }
   
@@ -73,6 +76,8 @@ export default class extends Page{
       filtersValues: obj
     })
   }
+  
+  getSelectedIdUsers = (arr) =>  this.setState({ selectedUsersId : arr })
   
   doesUserMatch = (user, filtersObj) => {
     let matches = 0
@@ -119,47 +124,53 @@ export default class extends Page{
       ubicacion: 'calle 34 8a 70',
       zona: '1'
     }
+    console.log(this.state.selectedUsersId)
     
     const users = [
         
             { 
+            id: 100,
             name: 'Carlos Aguilar',
             url: '',
             funcion: 'Coordinador',
             horario: [new Date(2017, 9, 9, 8, 30, 0 ), new Date(2017, 9, 9, 15, 30, 0 )],
-            ubicacion: 'Calle 34 8a 70',
+            ubicacion: { lat: 3.427308, lng: -76.549787 },
             zona: '4'
           },
          { 
+            id: 200,
             name: 'Antonio Castro',
             url: 'http://www.concordrusam.com/wp-content/uploads/2017/10/pro.jpg',
             funcion: 'Casos Especiales',
             horario: [new Date(2017, 9, 9, 5, 0, 0 ), new Date(2017, 9, 9, 10, 30, 0 )],
-            ubicacion: 'Calle 1b 34 78',
+            ubicacion: { lat: 3.425707, lng: -76.546174 },
             zona: '5'
         },
          { 
+            id: 300,
             name: 'Lina Burbano',
             url: null ,
             funcion: 'Suplentes',
             horario: [new Date(2017, 9, 9, 14, 50, 0 ), new Date(2017, 9, 9, 20, 10, 0 )],
-            ubicacion: 'Carrera 56 #52 ',
+            ubicacion: { lat: 3.414107, lng: -76.548121 },
             zona: '2'
         },
          { 
+            id: 400,
             name: 'Viviana Zapata',
             url: 'http://gaia.adage.com/images/bin/image/Women2013AngelaCourtin.jpg',
             funcion: 'Alcoholimetros',
             horario: [new Date(2017, 9, 9, 10, 15, 0 ), new Date(2017, 9, 9, 13, 40, 0 )],
-            ubicacion: 'Carrera 17a #62a 23',
+            ubicacion: { lat: 3.412437, lng: -76.541120 },
             zona: '7'
         },
          { 
+            id: 500,
             name: 'Velasquez',
             url: 'http://www.cchealing.com/img/profile1.jpg',
             funcion: 'Casos Especiales',
             horario: [new Date(2017, 9, 9, 18, 10, 0 ), new Date(2017, 9, 9, 12, 30, 0 )],
-            ubicacion: 'Calle 1a  #62a 130',
+            ubicacion: { lat: 3.394480, lng: -76.545868 },
             zona: '4'
         }
         
@@ -173,8 +184,8 @@ export default class extends Page{
     users.forEach((user) =>{
        this.doesUserMatch(user, availableFilters) && filteredUsers.push(user)
     })
-    console.log(availableFilters)
-    console.log(filteredUsers)
+    //console.log(availableFilters)
+    //---console.log(filteredUsers)
     // keep the map wrapper height updated!
     var windowHeight 
     if(isWindow){
@@ -190,11 +201,11 @@ export default class extends Page{
               <Header onAdminSettings={this.handleShowAdmin}
                     onMapBtn={this.handleShowMap}
                     user={adminUser}/>
-              <ListPanel users={filteredUsers} />
+              <ListPanel users={filteredUsers} onSelectedUsers={this.getSelectedIdUsers}/>
               <Filters onValuesChange={this.getFiltersValues}
                        values={this.state.filtersValues} /> 
                 {  
-                  isWindow && <Map showMarkers
+                  isWindow && <MapWrapper showMarkers
                                    googleMapURL='https://maps.googleapis.com/maps/api/js?key=AIzaSyDNjKlfP4zfk-HQx0la2KI7dSjaFRb5y1c&v=3.exp&libraries=geometry,drawing,places'
                                    loadingElement={<div style={{ height: '100%' }} />}
                                    containerElement={<div style={{ height: windowHeight, position: 'relative', top:-66, left: 0 }} />}

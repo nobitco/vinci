@@ -1,23 +1,17 @@
 import React from 'react'
 import AppBar from 'material-ui/AppBar'
 import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import NavigationClose from 'material-ui/svg-icons/navigation/close'
-import Router from 'next/router'
 
 export default class AppBarMain extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
+  render () {
     return (
       <div>
         <AppBar
-          title="Vinci"
+          title='Vinci'
           iconElementLeft={<IconButton><NavigationClose /></IconButton>}
         />
       </div>
-    );
+    )
   }
 }
