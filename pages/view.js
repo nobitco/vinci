@@ -10,7 +10,7 @@ import AppBar from 'material-ui/AppBar'
 import Header from '../components/Header/Header'
 import AdminSettings from '../components/AdminSettings'
 import ListPanel from '../components/ListPanel'
-import MapWrapper from '../components/Map'
+import Map from '../components/Map'
 import Filters from '../components/Filters/Filters'
 
 const isWindow = typeof window !== 'undefined'  //if document.window already exist for innerHeigt to Map
@@ -30,7 +30,7 @@ export default class extends Page{
         horario : [null, null]
       },
       viewportHeight : 2000,
-      selectedUsersId: []
+      selected: []
       
     }    
     
@@ -48,7 +48,7 @@ export default class extends Page{
         horario : [null, null] 
       },
       viewportHeight : 1000,
-      selectedUsersId: []
+      selected: []
     }
   }
   
@@ -77,7 +77,14 @@ export default class extends Page{
     })
   }
   
-  getSelectedIdUsers = (arr) =>  this.setState({ selectedUsersId : arr })
+  // receive user id selected by list check or map mark click
+  getSelectedIdUsers = (arr) => {
+    
+     let selectedIds = []
+     arr.forEach((id) => this.state.selected.indexOf(id) === -1 && selectedIds.push(id))
+     this.setState({ selected : selectedIds})
+     // enviar SOLO LOS IDS DE LOS SELECCIONADOS, NO TODOS LOS OBJETOS -- make users[] global
+  } 
   
   doesUserMatch = (user, filtersObj) => {
     let matches = 0
@@ -124,7 +131,7 @@ export default class extends Page{
       ubicacion: 'calle 34 8a 70',
       zona: '1'
     }
-    console.log(this.state.selectedUsersId)
+    console.log(this.state.selected)
     
     const users = [
         
@@ -191,7 +198,7 @@ export default class extends Page{
     if(isWindow){
       window.onresize = () => {  this.setState({  viewportHeight : window.innerHeight })  }
       windowHeight = this.state.viewportHeight
-    } 
+    }  
       
     return (
       <MuiThemeProvider muiTheme={vinciTheme(this.props.userAgent)}>
@@ -205,12 +212,13 @@ export default class extends Page{
               <Filters onValuesChange={this.getFiltersValues}
                        values={this.state.filtersValues} /> 
                 {  
-                  isWindow && <MapWrapper showMarkers
+                  isWindow && <Map showMarkers
                                    googleMapURL='https://maps.googleapis.com/maps/api/js?key=AIzaSyDNjKlfP4zfk-HQx0la2KI7dSjaFRb5y1c&v=3.exp&libraries=geometry,drawing,places'
                                    loadingElement={<div style={{ height: '100%' }} />}
                                    containerElement={<div style={{ height: windowHeight, position: 'relative', top:-66, left: 0 }} />}
                                    mapElement={<div id='map'style={{ height: '100%' }} />}
                                    users={filteredUsers}
+                                   onSelectedMarkers={this.getSelectedIdUsers}
                                    
                               />  
                 }

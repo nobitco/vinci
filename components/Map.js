@@ -3,36 +3,53 @@ import {withScriptjs, withGoogleMap, GoogleMap, Marker} from 'react-google-maps'
 import InfoBox from 'react-google-maps/lib/components/addons/InfoBox'
 import SvgIcon from 'material-ui/FontIcon'
 
-//MapPoint  https://github.com/tomchentw/react-google-maps/issues/144
+
+class MapPoint extends React.Component{
+  constructor(props){
+    super(props)
+    this.id = this.props.user.id
+    this.state = { selected: false }
+  }
+  
+  handleClick = (mk) => {
+    this.setState((prevState) => { selected : !prevState.selected } )
+    this.props.onSelection(this.id)
+  }
+  
+  render(){
+    return(
+    <Marker position={new google.maps.LatLng(this.props.user.ubicacion.lat, this.props.user.ubicacion.lng)}
+            onClick={this.handleClick} />
+    )
+  }
+}
 
 class Map extends React.Component {
   
   constructor(props){
     super(props)
-    this.selectedMarkerIds = []
-    this.selectedIndex = []
     this.state = {
-      selected: []
+      selected: []  //stores users ids selected markers
     }
   }
   
-    handleSelection = (e) => {
-      /*let indexNumber = this.selectedIndex.indexOf(index)
-      indexNumber !== -1 ? this.selectedIndex.splice(indexNumber,1) : this.selectedIndex.push(index)*/
-      
-      console.log(e.type);
+    handleSelection = (mkId) => {
+      let ids = this.state.selected
+      let idIndex = ids.indexOf(mkId)
+      idIndex === -1 ? ids.push(mkId) : ids.splice(idIndex, 1)
+      this.setState({ selected : ids })
+      this.props.onSelectedMarkers(this.state.selected)
+      //console.log(this.state.selected);
   }
   
 
   
   render(){
+    
     var markers = []
-    markers = this.props.items.map((user, index) => (
-     <Marker position={new google.maps.LatLng(user.ubicacion.lat, user.ubicacion.lng)}
-      onClick={this.handleSelection}
-      key={index}
-      clickable={true}/>
-    ))
+    markers = this.props.items.map((user, index) => ( <MapPoint user={user} 
+                                                                onSelection={this.handleSelection}
+                                                                key={index}/> ))
     
     return (
         <GoogleMap defaultZoom={13}
@@ -44,7 +61,6 @@ class Map extends React.Component {
         </GoogleMap>
     )}
 }
-    
-const MapWrapper = withScriptjs(withGoogleMap( (props) => <Map items={props.users}/>))
-                                
-export default MapWrapper
+                               
+export default withScriptjs(withGoogleMap( (props) => <Map items={props.users}
+                                                           onSelectedMarkers={props.onSelectedMarkers} />))
