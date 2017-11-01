@@ -18,9 +18,7 @@ const isWindow = typeof window !== 'undefined'  //if document.window already exi
 export default class extends Page{
 
    constructor(props) {
-     
     super(props)
-    
     this.state = {
       email: '',  
       showAdminSettings : false,
@@ -31,12 +29,9 @@ export default class extends Page{
       },
       viewportHeight : 2000,
       selected: []
-      
     }    
-    
     this.handleSubmit = this.handleSubmit.bind(this)
-     
-    }
+  }
   
   async componentDidMount() {
     this.state = {
@@ -69,25 +64,29 @@ export default class extends Page{
   }
    
       
-  handleShowAdmin = () => { this.setState( (prevState) => { return {showAdminSettings : !prevState.showAdminSettings}  } )}
+  handleShowAdmin = () =>  this.setState( prevState =>  ({ showAdminSettings : !prevState.showAdminSettings }) ) 
     
-  getFiltersValues = (obj) => {
-    this.setState({
-      filtersValues: obj
-    })
-  }
+  getFiltersValues = obj => this.setState({ filtersValues: obj })
+  
   
   // receive user id selected by list check or map mark click
   getSelectedIdUsers = (arr) => {
-    
+    this.setState({ selected:arr })
+    //console.log(arr)
+  /*  console.log(arr)
      let selectedIds = []
+     if(arr.length > 0){
      arr.forEach((id) => this.state.selected.indexOf(id) === -1 && selectedIds.push(id))
-     this.setState({ selected : selectedIds})
+     }else{ //vacia }
+       
+     this.setState({ selected : selectedIds})*/
+     //console.log(this.state.selected)
+
      // enviar SOLO LOS IDS DE LOS SELECCIONADOS, NO TODOS LOS OBJETOS -- make users[] global
   } 
   
   doesUserMatch = (user, filtersObj) => {
-    let matches = 0
+     let matches = 0
      let objSize = 0
 
      for(var prop in filtersObj){
@@ -105,7 +104,7 @@ export default class extends Page{
     
   }
   
-  getAvailableFilters = (obj) =>  {
+  getAvailableFilters = obj =>  {
         
         let filters = {}
 
@@ -119,7 +118,7 @@ export default class extends Page{
         
     return filters
         
-    }
+  }
   
   render() {
     
@@ -131,8 +130,8 @@ export default class extends Page{
       ubicacion: 'calle 34 8a 70',
       zona: '1'
     }
-    console.log(this.state.selected)
     
+    // fictional users, they'll be received from database
     const users = [
         
             { 
@@ -188,40 +187,38 @@ export default class extends Page{
     
     //store users that match with available filters
     var filteredUsers = []
-    users.forEach((user) =>{
-       this.doesUserMatch(user, availableFilters) && filteredUsers.push(user)
-    })
-    //console.log(availableFilters)
-    //---console.log(filteredUsers)
+    
+    users.forEach(  user => this.doesUserMatch(user, availableFilters) && filteredUsers.push(user)  )
+
     // keep the map wrapper height updated!
     var windowHeight 
+    
     if(isWindow){
-      window.onresize = () => {  this.setState({  viewportHeight : window.innerHeight })  }
+      window.onresize = () => this.setState({  viewportHeight : window.innerHeight })
       windowHeight = this.state.viewportHeight
     }  
       
     return (
-      <MuiThemeProvider muiTheme={vinciTheme(this.props.userAgent)}>
+      <MuiThemeProvider muiTheme={ vinciTheme(this.props.userAgent) }>
         <Layout title='Usuarios'>
-            {this.state.showAdminSettings && <AdminSettings onAdminSettings={this.handleShowAdmin} user={adminUser}/>}
+            { this.state.showAdminSettings && <AdminSettings onAdminSettings={this.handleShowAdmin} user={adminUser} /> }
           <div id='mainContainer'>
               <Header onAdminSettings={this.handleShowAdmin}
-                    onMapBtn={this.handleShowMap}
-                    user={adminUser}/>
-              <ListPanel users={filteredUsers} onSelectedUsers={this.getSelectedIdUsers}/>
+                      onMapBtn={this.handleShowMap}
+                      user={adminUser} />
+              <ListPanel users={filteredUsers}
+                         onSelectedUsers={this.getSelectedIdUsers}
+                         selectedUsers={this.state.selected} />
               <Filters onValuesChange={this.getFiltersValues}
                        values={this.state.filtersValues} /> 
-                {  
-                  isWindow && <Map showMarkers
-                                   googleMapURL='https://maps.googleapis.com/maps/api/js?key=AIzaSyDNjKlfP4zfk-HQx0la2KI7dSjaFRb5y1c&v=3.exp&libraries=geometry,drawing,places'
-                                   loadingElement={<div style={{ height: '100%' }} />}
-                                   containerElement={<div style={{ height: windowHeight, position: 'relative', top:-66, left: 0 }} />}
-                                   mapElement={<div id='map'style={{ height: '100%' }} />}
-                                   users={filteredUsers}
-                                   onSelectedMarkers={this.getSelectedIdUsers}
-                                   
-                              />  
-                }
+              {  isWindow && <Map showMarkers
+                                  googleMapURL='https://maps.googleapis.com/maps/api/js?key=AIzaSyDNjKlfP4zfk-HQx0la2KI7dSjaFRb5y1c&v=3.exp&libraries=geometry,drawing,places'
+                                  loadingElement={<div style={{ height: '100%' }} />}
+                                  containerElement={<div style={{ height: windowHeight, position: 'relative', top:-66, left: 0 }} />}
+                                  mapElement={<div id='map'style={{ height: '100%' }} />}
+                                  users={filteredUsers}
+                                  onSelectedMarkers={this.getSelectedIdUsers}
+                                  selectedMarkers={this.state.selected} />  }
               <style jsx>{`
               #mainContainer{
                 position:relative;
