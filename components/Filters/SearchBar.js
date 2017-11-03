@@ -40,23 +40,13 @@ export default class SearchBar extends React.Component {
                         </div>
                         <input  id='search-input' 
                           type='text' 
-                          placeholder='Buscar...' 
+                          placeholder='Buscar por nombre' 
                           onChange = {this.handleSearchBar}
-                          value={this.props.value}/>
-                          <div className='absolute' style={{right:0}}>
-                            <FilterBtn onClick={this.handleFilterBtn} >
-                              <FilterIcon color={grey700}/>
-                            </FilterBtn>
-                          </div>
-               
- 
-                  
-            
+                          value={this.props.value} />
+  
                       <style jsx>{`
-
-
                           #searchBar-container{
-                            padding: 12px 104px 12px 72px;
+                            padding: 12px 12px 12px 72px;
                             border:1px solid #ebebeb;
                             display:flex;
                             position:relative;
@@ -75,9 +65,7 @@ export default class SearchBar extends React.Component {
 
                           }
 
-      
 
-                         
 
                           input[type=text]#search-input{
                             border: none;

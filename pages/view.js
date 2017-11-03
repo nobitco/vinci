@@ -120,10 +120,12 @@ export default class extends Page{
         
   }
   
+  
+  
   render() {
     
     const adminUser = {
-      name: 'Juan Sebastian Zapata',
+      name: 'Roberto Bolaños',
       url:'http://www.american.edu/uploads/profiles/large/chris_palmer_profile_11.jpg',
       funcion : 'Coordinador',
       horario : [new Date(2017, 9, 9, 8, 30, 0 ), new Date(2017, 9, 9, 15, 30, 0 )],
@@ -191,11 +193,8 @@ export default class extends Page{
     users.forEach(  user => this.doesUserMatch(user, availableFilters) && filteredUsers.push(user)  )
 
     // keep the map wrapper height updated!
-    var windowHeight 
-    
     if(isWindow){
       window.onresize = () => this.setState({  viewportHeight : window.innerHeight })
-      windowHeight = this.state.viewportHeight
     }  
       
     return (
@@ -214,8 +213,8 @@ export default class extends Page{
               {  isWindow && <Map showMarkers
                                   googleMapURL='https://maps.googleapis.com/maps/api/js?key=AIzaSyDNjKlfP4zfk-HQx0la2KI7dSjaFRb5y1c&v=3.exp&libraries=geometry,drawing,places'
                                   loadingElement={<div style={{ height: '100%' }} />}
-                                  containerElement={<div style={{ height: windowHeight, position: 'relative', top:-66, left: 0 }} />}
-                                  mapElement={<div id='map'style={{ height: '100%' }} />}
+                                  containerElement={<div style={{ height: this.state.viewportHeight, position: 'relative', top:-66, left: 0 }} />}
+                                  mapElement={<div id='map'style={{ height: '100vh' }} />}
                                   users={filteredUsers}
                                   onSelectedMarkers={this.getSelectedIdUsers}
                                   selectedMarkers={this.state.selected} />  }

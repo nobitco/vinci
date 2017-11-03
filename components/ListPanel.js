@@ -13,7 +13,7 @@ export default class ListPanel extends React.Component {
     }
   }
   
-  getSearchBarValues = obj => this.setState({ searchText: obj.searchText }) 
+  getSearchBarValues = obj => this.setState({ searchText: obj.searchText, selected: this.props.selectedUsers }) 
   
   componentWillReceiveProps(nextProps){ this.setState({ selected: nextProps.selectedUsers  }) }
   
@@ -22,7 +22,6 @@ export default class ListPanel extends React.Component {
     let searchText = this.state.searchText.toLowerCase()
     let users = this.props.users
     let searchedUsers = []
-    
     // compare the actual user array and get items that match with searchText
     if( users != 'undefined' || users != null ) users.forEach( (user, index) => user.name.toLowerCase().indexOf(searchText) !== -1 && searchedUsers.push(user)  )
     
@@ -37,7 +36,7 @@ export default class ListPanel extends React.Component {
                                     selectedItems={this.state.selected} /> }
         <style jsx>{`
             #ListPanel{
-               width:320px;
+               width:260px;
                z-index:1500;
                position:absolute;
                top:20px;

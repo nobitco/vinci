@@ -14,7 +14,7 @@ export default class List extends React.Component {
     
     constructor(props){
       super(props)
-      this.state = { selected: [] }
+      this.state = { selected: this.props.selectedItems }
     }
 
     isSelected = id => this.state.selected.indexOf(id) !== -1
@@ -23,6 +23,7 @@ export default class List extends React.Component {
    
     handleRowSelection = selectedRows => {
       let selectedObjsId = this.getSelectedObjsId(selectedRows, this.props.items)
+      console.log(selectedRows)
       let selected = this.state.selected
       selectedObjsId.forEach( (id) => {
                                         let matchIndex = selected.indexOf(id)
@@ -41,17 +42,15 @@ export default class List extends React.Component {
       </div>)
     
     componentWillReceiveProps(nextProps){
-      console.log('entreeeee')
       this.setState({ selected: nextProps.selectedItems })
     }
   
     render(){ 
-          console.log(this.state.selected)
+          //console.log(this.state.selected)
 
         let rows = [];
         let filterText = this.props.searchText.toLowerCase()
         var items = this.props.items        
-        this.getSelectedObjsId(this.state.selected , items)
         
         return (
           <div id='list'>

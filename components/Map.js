@@ -11,12 +11,12 @@ const DetailWindow = (props) => {
       <style jsx>{`
             #container{
                padding: 10px;
+               width: 150px;
+            }
 
-               width:300px;
-               }
             .label{
-                display:flex;
-flex-direction:row;
+               display:flex;
+               flex-direction:row;
             }
          `}</style>
   </div>
@@ -67,33 +67,19 @@ class Map extends React.Component {
     }
   }
   
-  handleSelection = (mkId) => {
-      let ids = this.state.selected
-      let idIndex = ids.indexOf(mkId)
-      idIndex === -1 ? ids.push(mkId) : ids.splice(idIndex, 1)
-      this.setState({ selected : ids })
+  handleSelection = mkId => {
+      let selected = this.state.selected
+      let idIndex = selected.indexOf(mkId)
+      idIndex === -1 ? selected.push(mkId) : selected.splice(idIndex, 1)
+      this.setState({ selected : selected })
       this.props.onSelectedMarkers(this.state.selected)
       //console.log(this.state.selected);
   }
   
-  isSelected = (id) => this.state.selected.indexOf(id) !== -1
+  isSelected = id => this.state.selected.indexOf(id) !== -1
   
-  componentWillReceiveProps(nextProps){
-    
-    this.setState({ selected: nextProps.selectedMarkers })
+  componentWillReceiveProps(nextProps){ this.setState({ selected: nextProps.selectedMarkers }) }
   
-    /*let selected = this.state.selected
-    swtich (nextProps.selectedMarkers > selected ){
-      case true:
-           nextProps.selectedMarkers.forEach((id) => selected.indexOf(id) === -1 && selected.push(id))
-           break;
-      case false:
-      
-    }*/
-    
-  
-    //this.setState({ selected: selected })
-  }
   
   render(){
     console.log
@@ -102,7 +88,7 @@ class Map extends React.Component {
                                                                 onSelection={this.handleSelection}
                                                                 key={index}
                                                                 selected={this.isSelected(user.id)} /> ))
-    
+     
     return (
         <GoogleMap defaultZoom={13}
           defaultCenter={{
