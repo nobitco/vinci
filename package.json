@@ -4,6 +4,7 @@
   "description": "Vinci",
   "main": "index.js",
   "dependencies": {
+    "material-ui": "^0.20.2",
     "materialize-css": "^0.100.1",
     "next": "^3.0.6",
     "node-sass": "^4.5.3",
@@ -21,7 +22,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "test": "standard"  
+    "test": "standard"
   },
   "repository": {
     "type": "git",
